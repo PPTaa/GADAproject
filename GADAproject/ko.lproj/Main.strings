@@ -1,0 +1,18 @@
+
+/* Class = "UIViewController"; title = "MY"; ObjectID = "1QE-ac-okW"; */
+"1QE-ac-okW.title" = "MY";
+
+/* Class = "UITabBarItem"; title = "깅찾기"; ObjectID = "Gzg-HF-n6b"; */
+"Gzg-HF-n6b.title" = "깅찾기";
+
+/* Class = "UITabBarItem"; title = "지하철"; ObjectID = "P5n-30-v4I"; */
+"P5n-30-v4I.title" = "지하철";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "YF5-jB-HiG"; */
+"YF5-jB-HiG.title" = "Item";
+
+/* Class = "UIViewController"; title = "길찾기"; ObjectID = "aW6-HX-iI2"; */
+"aW6-HX-iI2.title" = "길찾기";
+
+/* Class = "UIViewController"; title = "지하철"; ObjectID = "xjT-Uk-Z61"; */
+"xjT-Uk-Z61.title" = "지하철";
