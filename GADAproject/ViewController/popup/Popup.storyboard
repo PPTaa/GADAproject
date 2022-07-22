@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,6 +15,15 @@
         </array>
         <array key="NotoSansCJKkr-Regular.otf">
             <string>NotoSansCJKkr-Regular</string>
+        </array>
+        <array key="Pretendard-Bold.otf">
+            <string>Pretendard-Bold</string>
+        </array>
+        <array key="Pretendard-Medium.otf">
+            <string>Pretendard-Medium</string>
+        </array>
+        <array key="Pretendard-Regular.otf">
+            <string>Pretendard-Regular</string>
         </array>
     </customFonts>
     <scenes>
@@ -26,30 +36,39 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZY3-n3-r3R">
-                                <rect key="frame" x="35" y="386.5" width="344" height="133.5"/>
+                                <rect key="frame" x="50" y="388.5" width="314" height="129"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please try to connect again." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaE-40-vQW">
-                                        <rect key="frame" x="24" y="35" width="296" height="19.5"/>
-                                        <fontDescription key="fontDescription" name="NotoSansCJKkr-Regular" family="Noto Sans CJK KR" pointSize="13"/>
-                                        <color key="textColor" red="0.1999788582" green="0.20001345870000001" blue="0.1999712884" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <rect key="frame" x="24" y="19" width="266" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="cmy-Mi-FWz"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="18"/>
+                                        <color key="textColor" name="color-text-primary"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0BI-2B-D3U">
+                                        <rect key="frame" x="24" y="53" width="266" height="17"/>
+                                        <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="14"/>
+                                        <color key="textColor" name="color-text-secondary"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dye-ie-75V">
-                                        <rect key="frame" x="0.0" y="88.5" width="344" height="1"/>
-                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <rect key="frame" x="0.0" y="84" width="314" height="1"/>
+                                        <color key="backgroundColor" name="color-gray-20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="GkS-Dl-tnz"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fmx-Uh-bao">
-                                        <rect key="frame" x="0.0" y="89.5" width="344" height="44"/>
+                                        <rect key="frame" x="0.0" y="85" width="314" height="44"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="pxc-3h-7qF"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="NotoSansCJKkr-Regular" family="Noto Sans CJK KR" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="18"/>
                                         <state key="normal" title="Retry">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" name="color-primary-green-600"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
@@ -64,31 +83,36 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="color-background"/>
                                 <constraints>
+                                    <constraint firstItem="0BI-2B-D3U" firstAttribute="top" secondItem="zaE-40-vQW" secondAttribute="bottom" constant="6" id="4bf-ha-RdH"/>
+                                    <constraint firstItem="0BI-2B-D3U" firstAttribute="leading" secondItem="ZY3-n3-r3R" secondAttribute="leading" constant="24" id="5Ac-5K-unO"/>
                                     <constraint firstAttribute="trailing" secondItem="fmx-Uh-bao" secondAttribute="trailing" id="602-8I-09Q"/>
-                                    <constraint firstItem="zaE-40-vQW" firstAttribute="top" secondItem="ZY3-n3-r3R" secondAttribute="top" constant="35" id="Lqs-By-jEK"/>
+                                    <constraint firstItem="dye-ie-75V" firstAttribute="top" secondItem="0BI-2B-D3U" secondAttribute="bottom" constant="14" id="6Xv-i2-GTC"/>
+                                    <constraint firstItem="zaE-40-vQW" firstAttribute="top" secondItem="ZY3-n3-r3R" secondAttribute="top" constant="19" id="Lqs-By-jEK"/>
                                     <constraint firstAttribute="bottom" secondItem="fmx-Uh-bao" secondAttribute="bottom" id="QYk-4C-2Ib"/>
                                     <constraint firstItem="fmx-Uh-bao" firstAttribute="top" secondItem="dye-ie-75V" secondAttribute="bottom" id="Rfb-q9-bF8"/>
                                     <constraint firstItem="dye-ie-75V" firstAttribute="leading" secondItem="ZY3-n3-r3R" secondAttribute="leading" id="UQz-Gm-pgz"/>
-                                    <constraint firstItem="fmx-Uh-bao" firstAttribute="top" secondItem="zaE-40-vQW" secondAttribute="bottom" constant="35" id="W1F-bH-j7d"/>
                                     <constraint firstAttribute="trailing" secondItem="zaE-40-vQW" secondAttribute="trailing" constant="24" id="cDm-S9-OvS"/>
                                     <constraint firstAttribute="trailing" secondItem="dye-ie-75V" secondAttribute="trailing" id="kNK-cx-sBG"/>
                                     <constraint firstItem="fmx-Uh-bao" firstAttribute="leading" secondItem="ZY3-n3-r3R" secondAttribute="leading" id="nrE-qL-HEa"/>
                                     <constraint firstItem="zaE-40-vQW" firstAttribute="leading" secondItem="ZY3-n3-r3R" secondAttribute="leading" constant="24" id="vNp-s8-IG5"/>
+                                    <constraint firstAttribute="trailing" secondItem="0BI-2B-D3U" secondAttribute="trailing" constant="24" id="wyE-9g-zH1"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kwq-oj-dMY"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.65000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="kwq-oj-dMY" firstAttribute="trailing" secondItem="ZY3-n3-r3R" secondAttribute="trailing" constant="35" id="LKj-TZ-ZJa"/>
-                            <constraint firstItem="ZY3-n3-r3R" firstAttribute="leading" secondItem="kwq-oj-dMY" secondAttribute="leading" constant="35" id="bBV-T0-hG5"/>
+                            <constraint firstItem="kwq-oj-dMY" firstAttribute="trailing" secondItem="ZY3-n3-r3R" secondAttribute="trailing" constant="50" id="LKj-TZ-ZJa"/>
+                            <constraint firstItem="ZY3-n3-r3R" firstAttribute="leading" secondItem="kwq-oj-dMY" secondAttribute="leading" constant="50" id="bBV-T0-hG5"/>
                             <constraint firstItem="ZY3-n3-r3R" firstAttribute="centerY" secondItem="kwq-oj-dMY" secondAttribute="centerY" id="fjx-EW-qW4"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="btnConfirm" destination="fmx-Uh-bao" id="8l8-qP-ME2"/>
+                        <outlet property="popupView" destination="ZY3-n3-r3R" id="gUG-1Z-Tc6"/>
+                        <outlet property="tvContent" destination="0BI-2B-D3U" id="k6P-CB-8vX"/>
                         <outlet property="tvDesc" destination="zaE-40-vQW" id="tg0-bu-aoT"/>
                     </connections>
                 </viewController>
@@ -311,6 +335,21 @@
     <resources>
         <image name="mic_wait" width="53.5" height="53.5"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <namedColor name="color-background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color-gray-20">
+            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color-primary-green-600">
+            <color red="0.0" green="0.67100000381469727" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color-text-primary">
+            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color-text-secondary">
+            <color red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

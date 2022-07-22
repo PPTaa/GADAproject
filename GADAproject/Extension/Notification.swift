@@ -26,5 +26,9 @@ extension Notification.Name {
     static let joinNoti = Notification.Name("joinNoti")
     
     static let subwaySearchByName = Notification.Name("subwaySearchByName")
+    
+    
+    static let challengeNoti = Notification.Name("challengeNoti")
+    static let storeNoti = Notification.Name("storeNoti")
 
 }

@@ -9,6 +9,18 @@ import Foundation
 import UIKit
 
 extension UIView {
+    
+    func dottedLine() {
+        let borderLayer = CAShapeLayer()
+        borderLayer.strokeColor = UIColor.baseGray300?.cgColor
+        borderLayer.lineDashPattern = [2, 2]
+        borderLayer.frame = self.bounds
+        borderLayer.fillColor = nil
+        borderLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: 1).cgPath
+        self.layer.addSublayer(borderLayer)
+    }
+    
+    
     func roundCorner(radius: CGFloat, arrayLiteral: CACornerMask.ArrayLiteralElement = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]) {
         
         self.layer.cornerRadius = radius
@@ -45,15 +57,15 @@ extension UIView {
         - color: 라인 컬러
      */
     func createDottedLine(lineWidth: CGFloat, color: CGColor) {
-       let caShapeLayer = CAShapeLayer()
-       caShapeLayer.strokeColor = color
-       caShapeLayer.lineWidth = lineWidth
-       caShapeLayer.lineDashPattern = [4,4]
-       let cgPath = CGMutablePath()
+        let caShapeLayer = CAShapeLayer()
+        caShapeLayer.strokeColor = color
+        caShapeLayer.lineWidth = lineWidth
+        caShapeLayer.lineDashPattern = [4,4]
+        let cgPath = CGMutablePath()
         let cgPoint = [CGPoint(x: 0.5, y: 0), CGPoint(x: 0.5, y: self.frame.height)]
-       cgPath.addLines(between: cgPoint)
-       caShapeLayer.path = cgPath
-       layer.addSublayer(caShapeLayer)
+        cgPath.addLines(between: cgPoint)
+        caShapeLayer.path = cgPath
+        layer.addSublayer(caShapeLayer)
     }
     
     func rotate(_ toValue: CGFloat, duration: CFTimeInterval = 0.2) {

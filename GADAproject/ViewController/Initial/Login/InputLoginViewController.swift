@@ -24,8 +24,10 @@ class InputLoginViewController: UIViewController {
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var btnRegister: UIButton!
     
+    @IBOutlet weak var btnDismiss: UIButton!
     
     private var alertDialog:AlertPopupView!
+    
     
     let realm = try! Realm()
     
@@ -46,7 +48,16 @@ class InputLoginViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
 //        validateValue()
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if DataShare.shared().isMainEnter {
+            btnDismiss.isHidden = true
+        } else {
+            btnDismiss.isHidden = false
+        }
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -97,7 +108,10 @@ class InputLoginViewController: UIViewController {
 
     @IBAction func disMissPage(_ sender: Any) {
         print("click Dismiss")
-        self.navigationController?.popViewController(animated: true)
+        let vc = UIStoryboard(name: "TabBar", bundle: nil).instantiateViewController(withIdentifier: "TabbarViewController") as! TabbarViewController
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
     @IBAction func loginConfirm(_ sender: Any) {
@@ -106,16 +120,11 @@ class InputLoginViewController: UIViewController {
         
         if id.stringTrim().count == 0 || pwd.stringTrim().count == 0 {
             
-            
             if id.stringTrim().count == 0 {
-                
-//                toast(message: "text_login_9".localized())
                 return
             }
             
             if pwd.stringTrim().count == 0 {
-                
-//                toast(message: "text_login_10".localized())
                 return
             }
             
@@ -128,7 +137,14 @@ class InputLoginViewController: UIViewController {
     
     @IBAction func tapRegister(_ sender: Any) {
         let vc = UIStoryboard(name: "Register", bundle: nil).instantiateViewController(withIdentifier: "JoinViewController") as! JoinViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        if DataShare.shared().isMainEnter {
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true, completion: nil)
+        } else {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @IBAction func tapFindPassword(_ sender: Any) {
@@ -143,71 +159,55 @@ class InputLoginViewController: UIViewController {
         
     }
     
-    // # 로그인
+    // # 로그인 리턴값으로 모든 값 보내달라고 요청
+    
     private func requestLogin(id:String, pwd:String) -> Void {
         print("requestLogin+++++++++++ \(id) \(pwd)")
         SLoader.showLoading()
         
         var params:[String:Any] = [
-            "cell_num" : id,
-            "passwd" : pwd
+            "cell" : id,
+            "password" : pwd
         ]
         
-        let path:String = BaseConst.SERVICE_SERVER_HOST + BaseConst.NET_MEMBER_LOGIN
-        
-        CommonRequest.shared.request(path, params: params as! [String : String]) {
-            
-            (_ result: JSON) in
-            
-            SLoader.hide()
-            
-            if !result.isEmpty {
+        let path:String = BaseConst.GADA_SERVICE_SERVER_HOST + BaseConst.NET_GADA_LOGIN
 
-                print("result['code'] : ", result["code"])
-                
-                // # 등록 성공 시
-                if result["code"].intValue == 200 {
-                    
-                    Defaults.defaults.setValue(true, forKey: BaseConst.SPC_USER_LOGIN)
-                    Defaults.defaults.setValue(self.tvPhone.text!, forKey: BaseConst.SPC_USER_ID)
-                    Defaults.defaults.setValue(self.tvPassword.text!, forKey: BaseConst.SPC_USER_PWD)
-                    
-                    DispatchQueue.main.async {
-                        [self] in
-                        requestProfile()
-                    }
-                } else if result["code"].intValue == 201 {
-                    // 가입한 회원 정보가 없음
-                    self.tvPhoneSetting(hidden: false)
-                } else if result["code"].intValue == 202 {
-                    // 비밀번호 틀림
-                    self.tvPasswordSetting(hidden: false)
-                }
-                
-                else {
-                    
-                    DispatchQueue.main.async {
-                        [self] in
+        AF.request(path, method: .post, parameters: params, encoding: JSONEncoding.default, headers: BaseConst.headers).responseJSON { response in
+            SLoader.hide()
+            switch response.result {
+            case .success(let data):
+                print(data)
+                let result = JSON(data)
+                if !result.isEmpty {
+                    print("result - \(result)")
+                    // # 등록 성공 시
+                    if result["cell_num"].intValue == 201 {
                         // 가입한 회원 정보가 없음
-                        tvPhoneSetting(hidden: false)
+                        self.tvPhoneSetting(hidden: false)
+                    } else if result["cell_num"].intValue == 202 {
+                        // 비밀번호 틀림
+                        self.tvPasswordSetting(hidden: false)
+                    } else {
+                        Defaults.defaults.setValue(true, forKey: BaseConst.SPC_USER_LOGIN)
+                        Defaults.defaults.setValue(self.tvPhone.text!, forKey: BaseConst.SPC_USER_ID)
+                        Defaults.defaults.setValue(self.tvPassword.text!, forKey: BaseConst.SPC_USER_PWD)
+
+                        DataShare.shared().profileDao.cell_num = result["cell_num"].stringValue
+                        DataShare.shared().profileDao.weak_type = result["category"].stringValue
+                        DataShare.shared().profileDao.hc_type = result["tool_type"].stringValue
+                        DataShare.shared().profileDao.f_mobil = result["f_mobil"].stringValue
+                        DataShare.shared().profileDao.name = result["nickname"].stringValue
                         
-                        
-                        if alertDialog != nil { alertDialog.dismiss(animated: false, completion: nil) }
-                        alertDialog = (UIStoryboard.init(name: "Popup", bundle: nil).instantiateViewController(withIdentifier: "AlertPopupView") as! AlertPopupView)
-                        alertDialog.modalTransitionStyle = .crossDissolve
-                        alertDialog.modalPresentationStyle = .overCurrentContext
-                        
-                        alertDialog.descString = "text_findpw_11".localized()
-                        alertDialog.confirmString = "confirm".localized()
-                        alertDialog.confirmClick = { () -> () in  }
-                        present(alertDialog, animated: true, completion: nil)
+                        self.moveHome()
                     }
                 }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
     
-    
+    /*
     private func requestProfile() -> Void {
         print("requestProfile+++++++++++")
         
@@ -325,6 +325,9 @@ class InputLoginViewController: UIViewController {
             }
         }
     }
+    */
+    
+    
     
     private func moveWithdrawn() {
         

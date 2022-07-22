@@ -55,13 +55,13 @@ extension FavoriteMoreViewController: UITableViewDelegate, UITableViewDataSource
         let row = indexPath.row + 1
 //        let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteMoreCell", for: indexPath) as! FavoriteMoreCell
-        let addCell = tableView.dequeueReusableCell(withIdentifier: "AddCell", for: indexPath) as! AddCell
-        if row == DataShare.shared().favoriteDataList.count {
-            UsefulUtils.roundingCorner(view: addCell.addBtn, borderColor: UIColor(named: "color-gray-30") ?? .clear)
-            addCell.addBtn.addTarget(self, action: #selector(addBtnClick), for: .touchUpInside)
-            addCell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-            return addCell
-        }
+//        let addCell = tableView.dequeueReusableCell(withIdentifier: "AddCell", for: indexPath) as! AddCell
+//        if row == DataShare.shared().favoriteDataList.count {
+//            UsefulUtils.roundingCorner(view: addCell.addBtn, borderColor: UIColor(named: "color-gray-30") ?? .clear)
+//            addCell.addBtn.addTarget(self, action: #selector(addBtnClick), for: .touchUpInside)
+//            addCell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+//            return addCell
+//        }
         cell.favoriteLocationCustomName.text = DataShare.shared().favoriteDataList[row].customName
         cell.favoriteLocationName.text = DataShare.shared().favoriteDataList[row].name
         cell.favoriteLocationAddress.text = DataShare.shared().favoriteDataList[row].address

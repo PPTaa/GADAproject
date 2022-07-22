@@ -15,9 +15,9 @@ class InfoMenuCell: PagingMenuViewCell {
     override public var isSelected: Bool {
         didSet {
             if isSelected {
-                titleLabel.textColor = .black
+                titleLabel.textColor = .textPrimary
             } else {
-                titleLabel.textColor = .lightGray
+                titleLabel.textColor = .textSecondary
             }
         }
     }

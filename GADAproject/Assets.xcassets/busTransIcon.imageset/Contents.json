@@ -1,17 +1,50 @@
 {
   "images" : [
     {
-      "filename" : "Group 7499.png",
+      "filename" : "turn_24.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Group 7499@2x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "turn_dark_24.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "turn_24@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Group 7499@3x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "turn_dark_24@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "turn_24@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "turn_dark_24@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -15,12 +15,15 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
 
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchView: UIView!
+    
+    @IBOutlet weak var searchViewContainer: UIView!
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var sttBtn: UIButton!
     @IBOutlet weak var textCancelBtn: UIButton!
     
-    @IBOutlet var favoriteCollectionView: UICollectionView!
+//    @IBOutlet var favoriteCollectionView: UICollectionView!
     
     private var STTDialog:STTPopupView!
 
@@ -50,8 +53,8 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
         tableView.delegate = self
         tableView.sectionFooterHeight = 0
         
-        favoriteCollectionView.delegate = self
-        favoriteCollectionView.dataSource = self
+//        favoriteCollectionView.delegate = self
+//        favoriteCollectionView.dataSource = self
         
         searchTextField.delegate = self
         
@@ -60,10 +63,14 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
         
         // MARK: STT - 실행 처리
         speechRecognizer?.delegate = self
+        searchViewContainer.layer.borderWidth = 1
+        searchViewContainer.layer.borderColor = UIColor.inputDefault?.cgColor
+        searchViewContainer.layer.cornerRadius = 2
         
-        UsefulUtils.roundingCorner(view: searchTextField, borderColor: UIColor(named: "color-gray-30") ?? .clear)
-        searchTextField.backgroundColor = UIColor(named: "color-gray-10")
-        searchTextField.addLeftPadding()
+        
+//        UsefulUtils.roundingCorner(view: searchTextField, borderColor: UIColor(named: "color-gray-30") ?? .clear)
+//        searchTextField.backgroundColor = UIColor(named: "color-gray-10")
+//        searchTextField.addLeftPadding()
         if isStart {
             searchTextField.placeholder = "출발지 입력"
         }
@@ -71,7 +78,7 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
 //        configureCollectionView()
 //        registerCollectionView()
 //        collectionViewDelegate()
-        collectionViewSetting()
+//        collectionViewSetting()
         
         NotificationCenter.default.addObserver(self, selector: #selector(recieveSearchData(_:)), name: .recieveSearchData, object: nil)
         
@@ -80,7 +87,7 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear SearchLocationViewController")
         super.viewWillAppear(true)
-        favoriteCollectionView.reloadData()
+//        favoriteCollectionView.reloadData()
         tableView.reloadData()
     }
     
@@ -192,6 +199,7 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
             CATransaction.commit()
         }
     }
+    /*
     private func collectionViewSetting() {
         
         let favoriteCollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -205,6 +213,7 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
         favoriteCollectionView.register(FavoriteCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "FavoriteCollectionViewCell")
         favoriteCollectionView.register(FavoriteMoreCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "FavoriteMoreCollectionViewCell")
     }
+     */
 //    func registerCollectionView() {
 //        favoriteCollectionView.register(FavoriteCell.self
 //                                        , forCellWithReuseIdentifier: "FavoriteCell")
@@ -217,28 +226,31 @@ class SearchLocationViewController: UIViewController, SFSpeechRecognizerDelegate
 extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        /*
         if isSearch {
             print("numberOfSections isSearch")
             return 1
         } else {
             return 2
         }
+         */
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("numberOfRowsInSection \(section)")
         switch section {
+//        case 0:
+//            if !isSearch { // 검색을 하지 않은 경우
+//                let models = realm.objects(RecentSearchPath.self)
+//                if models.count == 0 {
+//                    return 1
+//                }
+//                return models.count > 2 ? 2 : models.count
+//            } else { // 검색을 한 경우 검색결과 노출을 위한 색션 변경
+//                return searchDataList.count
+//            }
         case 0:
-            if !isSearch { // 검색을 하지 않은 경우
-                let models = realm.objects(RecentSearchPath.self)
-                if models.count == 0 {
-                    return 1
-                }
-                return models.count > 2 ? 2 : models.count
-            } else { // 검색을 한 경우 검색결과 노출을 위한 색션 변경
-                return searchDataList.count
-            }
-        case 1:
             if isSearch { // 검색을 한 경우 결과값 개수만큼 셀 생성
                 return searchDataList.count
             } else { // 검색을 하지 않은 경우 최근 검색 내용 출력
@@ -275,15 +287,15 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
                 return notingHeaderView
             } else {
                 headerView.headerMoreBtn.isHidden = false
-                headerView.headerTitleLabel.text = "최근 검색 경로"
-            }
-        case 1:
-            headerView.headerMoreBtn.isHidden = true
-            if isSearch {
-                headerView.headerTitleLabel.text = "검색 결과"
-            } else {
                 headerView.headerTitleLabel.text = "최근 검색"
             }
+//        case 1:
+//            headerView.headerMoreBtn.isHidden = true
+//            if isSearch {
+//                headerView.headerTitleLabel.text = "검색 결과"
+//            } else {
+//                headerView.headerTitleLabel.text = "최근 검색"
+//            }
         default:
             headerView.headerTitleLabel.text = "section header"
         }
@@ -305,20 +317,20 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
                 cell.bizName.text = searchDataList[indexPath.row].bizName
                 return cell
             }
-            print("indexPath = \(indexPath) -- ")
-            let models = realm.objects(RecentSearchPath.self)
-            if models.count == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "noneCell", for: indexPath) as! NoneCell
-                cell.basicText.text = "최근 검색한 경로가 없습니다."
-                return cell
-            } else {
-                let count = models.count
-                let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchPathCell", for: indexPath) as! RecentSearchPathCell
-                cell.startAddress.text = models[count - indexPath.row - 1].startAddress
-                cell.endAddress.text = models[count - indexPath.row - 1].endAddress
-                return cell
-            }
-        } else {
+//            print("indexPath = \(indexPath) -- ")
+//            let models = realm.objects(RecentSearchPath.self)
+//            if models.count == 0 {
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "noneCell", for: indexPath) as! NoneCell
+//                cell.basicText.text = "최근 검색한 경로가 없습니다."
+//                return cell
+//            } else {
+//                let count = models.count
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchPathCell", for: indexPath) as! RecentSearchPathCell
+//                cell.startAddress.text = models[count - indexPath.row - 1].startAddress
+//                cell.endAddress.text = models[count - indexPath.row - 1].endAddress
+//                return cell
+//            }
+//        } else {
             var models = realm.objects(RecentSearch.self)
             models = models.sorted(byKeyPath: "time", ascending: true)
             print("indexPath = \(indexPath)")
@@ -334,6 +346,8 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
                 cell.deleteBtn.addTarget(self, action: #selector(deleteCellBtnClick), for: .touchUpInside)
                 return cell
             }
+        } else {
+            return UITableViewCell()
         }
     }
     
@@ -352,42 +366,46 @@ extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSour
                 let selectLon = searchDataList[row].lon
                 let selectName = searchDataList[row].name
                 var selectData = (selectName: "", selectLatLon: CLLocationCoordinate2D())
-                
+
                 selectData.selectName = selectName
                 selectData.selectLatLon = CLLocationCoordinate2D(latitude: Double(selectLat) ?? 0.0, longitude: Double(selectLon) ?? 0.0)
                 searchCaseWithSelectData(selectData: selectData)
                 
-            } else {
-                print("else")
-                var models = realm.objects(RecentSearchPath.self)
+
+            }
+//             else {
+//                print("else")
+//                var models = realm.objects(RecentSearchPath.self)
+//                if models.count == 0 {
+//                    return
+//                }
+//
+//                let count = models.count
+//
+//                searchData.startName = models[count - row - 1].startAddress
+//                searchData.endName = models[count - row - 1].endAddress
+//                searchData.startLatLon = CLLocationCoordinate2D(latitude: Double(models[count - row - 1].startLat)!, longitude: Double(models[count - row - 1].startLon)!)
+//                searchData.endLatLon = CLLocationCoordinate2D(latitude: Double(models[count - row - 1].endLat)!, longitude: Double(models[count - row - 1].endLon)!)
+//
+//                let vc = UIStoryboard(name: "PathFind", bundle: nil).instantiateViewController(withIdentifier: "SearchPathViewController") as! SearchPathViewController
+//                vc.modalPresentationStyle = .fullScreen
+//                present(vc, animated: true, completion: nil)
+//
+//                NotificationCenter.default.post(name: .recieveLoactionData, object: searchData)
+//            }
+//        }
+            else {
+                var models = realm.objects(RecentSearch.self)
                 if models.count == 0 {
                     return
                 }
+                models = models.sorted(byKeyPath: "time", ascending: true)
+                print(models[models.count - row - 1])
                 
-                let count = models.count
-                
-                searchData.startName = models[count - row - 1].startAddress
-                searchData.endName = models[count - row - 1].endAddress
-                searchData.startLatLon = CLLocationCoordinate2D(latitude: Double(models[count - row - 1].startLat)!, longitude: Double(models[count - row - 1].startLon)!)
-                searchData.endLatLon = CLLocationCoordinate2D(latitude: Double(models[count - row - 1].endLat)!, longitude: Double(models[count - row - 1].endLon)!)
-
-                let vc = UIStoryboard(name: "PathFind", bundle: nil).instantiateViewController(withIdentifier: "SearchPathViewController") as! SearchPathViewController
-                vc.modalPresentationStyle = .fullScreen
-                present(vc, animated: true, completion: nil)
-
-                NotificationCenter.default.post(name: .recieveLoactionData, object: searchData)
+                searchTextField.text = models[models.count - row - 1].name
+                // 검색
+                search(keyword: models[models.count - row - 1].name)
             }
-        } else {
-            var models = realm.objects(RecentSearch.self)
-            if models.count == 0 {
-                return
-            }
-            models = models.sorted(byKeyPath: "time", ascending: true)
-            print(models[models.count - row - 1])
-            
-            searchTextField.text = models[models.count - row - 1].name
-            // 검색
-            search(keyword: models[models.count - row - 1].name)
         }
     }
     
@@ -464,6 +482,7 @@ extension SearchLocationViewController: UITextFieldDelegate {
 }
 
 // MARK: CollectionView Config
+/*
 extension SearchLocationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -603,6 +622,36 @@ extension SearchLocationViewController: UICollectionViewDelegate, UICollectionVi
         }
          */
     }
+}
+*/
+extension SearchLocationViewController {
+    @objc func recieveSearchData(_ notification: Notification) {
+        print("noti == recieveSearchData")
+        let name = notification.object as! String
+        
+        let models = realm.objects(RecentSearch.self)
+        searchTextField.text = name
+        // 검색
+        search(keyword: name)
+    }
+    
+    func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 125, y: self.view.frame.size.height/2 - 20, width: 250, height: 40))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 5;
+        toastLabel.clipsToBounds = true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 2.0, delay: 0.5, options: .curveEaseOut, animations: {
+                        toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
     
     func searchCaseWithSelectData(selectData: (selectName: String, selectLatLon: CLLocationCoordinate2D)) {
         var searchData = (startName: "", startLatLon: CLLocationCoordinate2D(), endName: "", endLatLon: CLLocationCoordinate2D())
@@ -663,36 +712,6 @@ extension SearchLocationViewController: UICollectionViewDelegate, UICollectionVi
                  
             }
         }
-    }
-}
-
-extension SearchLocationViewController {
-    @objc func recieveSearchData(_ notification: Notification) {
-        print("noti == recieveSearchData")
-        let name = notification.object as! String
-        
-        let models = realm.objects(RecentSearch.self)
-        searchTextField.text = name
-        // 검색
-        search(keyword: name)
-    }
-    
-    func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
-        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 125, y: self.view.frame.size.height/2 - 20, width: 250, height: 40))
-        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.9)
-        toastLabel.textColor = UIColor.white
-        toastLabel.font = font
-        toastLabel.textAlignment = .center;
-        toastLabel.text = message
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 5;
-        toastLabel.clipsToBounds = true
-        self.view.addSubview(toastLabel)
-        UIView.animate(withDuration: 2.0, delay: 0.5, options: .curveEaseOut, animations: {
-                        toastLabel.alpha = 0.0
-        }, completion: {(isCompleted) in
-            toastLabel.removeFromSuperview()
-        })
     }
 }
 

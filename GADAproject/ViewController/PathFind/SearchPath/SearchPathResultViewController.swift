@@ -17,7 +17,7 @@ class SearchPathResultViewController: UIViewController, TMapViewDelegate, Floati
     @IBOutlet weak var tmapView: UIView!
     @IBOutlet weak var tmapViewHeightConst: NSLayoutConstraint!
     @IBOutlet weak var backBtn: UIButton!
-    @IBOutlet weak var nowLocationBtn: UIButton!
+//    @IBOutlet weak var nowLocationBtn: UIButton!
     
     
     // 경로탐색 결과 폴리라인 리스트
@@ -49,8 +49,8 @@ class SearchPathResultViewController: UIViewController, TMapViewDelegate, Floati
         UsefulUtils.roundingCorner(view: backBtn)
         UsefulUtils.shadowCorner(view: backBtn)
         
-        UsefulUtils.roundingCorner(view: nowLocationBtn)
-        UsefulUtils.shadowCorner(view: nowLocationBtn)
+//        UsefulUtils.roundingCorner(view: nowLocationBtn)
+//        UsefulUtils.shadowCorner(view: nowLocationBtn)
         
         tmapView.addSubview(self.mapView!)
         
@@ -103,6 +103,7 @@ class SearchPathResultViewController: UIViewController, TMapViewDelegate, Floati
         print("click")
         dismiss(animated: true, completion: nil)
     }
+    /*
     // 한번 탭
     @IBAction func nowLoactionClick(_ sender: Any) {
         print("\(SearchViewController.currentLocation)")
@@ -122,6 +123,7 @@ class SearchPathResultViewController: UIViewController, TMapViewDelegate, Floati
             isCompassMode = true
         }
     }
+     */
     
     func getLocation(location: CLLocationCoordinate2D) {
         
@@ -166,12 +168,12 @@ extension SearchPathResultViewController {
         searchDetailPath(mapObj: item.mapObj)
         
         let startMarker = TMapMarker(position: SearchViewController.startLatLon)
-        startMarker.icon = UIImage(named: "mapStart")
+        startMarker.icon = UIImage(named: "location_origin_24")
         startMarker.map = self.mapView
         self.markers.append(startMarker)
         
         let endMarker = TMapMarker(position: SearchViewController.endLatLon)
-        endMarker.icon = UIImage(named: "mapEnd")
+        endMarker.icon = UIImage(named: "location_destination_24")
         endMarker.map = self.mapView
         self.markers.append(endMarker)
     }
@@ -241,32 +243,14 @@ extension SearchPathResultViewController {
 
                         // 각 교통수단 별 마커 표시
                         let startMarker = TMapMarker(position:coordnates.first!)
-//                        let startTopMarker = TMapCustomMarker(position: coordnates.first!)
+                        
                         if i.trafficClass == 1 {
-                            
-//                            let view = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 15))
-//                            view.layer.cornerRadius = 7.5
-//                            view.backgroundColor = .black
-//
-//                            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 45, height: 15))
-//                            label.textAlignment = .center
-//                            label.text = "\(self.totalExitLatLon[exitIndex].busNo)"
-//                            label.font = UIFont(name: "Montserrat-SemiBold", size: 11)
-//                            label.textColor = .white
-//                            view.addSubview(label)
-//
-//                            startTopMarker.view = view
-                            startMarker.icon = UIImage(named: "mapBus")
+                            startMarker.icon = UIImage(named: "circle_bus_24")
                         } else {
-//                            let view = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 15))
-//                            view.layer.cornerRadius = 7.5
-//                            view.backgroundColor = .orange
-//
-//                            let image = UIImageView(image: UIImage(named: "subwayEllipse-\(i.type)"))
-//                            view.addSubview(image)
-//
-//                            startTopMarker.view = view
-                            startMarker.icon = UIImage(named: "mapSubwayLine\(i.type)")
+//                            startMarker.icon = UIImage(named: "mapSubwayLine\(i.type)")
+                            let changeCode = SubwayUtils.shared().laneCdChange(laneCd: "\(i.type)")
+                            print("circle_line_\(changeCode)_24")
+                            startMarker.icon = UIImage(named: "circle_line_\(changeCode)_24")
                         }
 
                         DispatchQueue.main.async {

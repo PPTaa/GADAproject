@@ -61,7 +61,7 @@ extension SubwaySearchViewController: UITableViewDataSource, UITableViewDelegate
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-            let vc = UIStoryboard(name: "Subway", bundle: nil).instantiateViewController(withIdentifier: "SubwayStationInfoViewController") as! SubwayStationInfoViewController
+            let vc = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "SubwayStationInfoViewController") as! SubwayStationInfoViewController
             let row = indexPath.row
                     
             self.navigationController?.pushViewController(vc, animated: true)

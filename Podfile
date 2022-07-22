@@ -25,4 +25,6 @@ target 'GADAproject' do
 
 
   pod 'RealmSwift'                 , '4.1.1'
+  # CardView Animation
+  pod 'AnimatedCollectionViewLayout'
 end

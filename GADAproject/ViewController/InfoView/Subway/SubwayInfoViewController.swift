@@ -96,30 +96,29 @@ class SubwayInfoViewController: UIViewController {
         var phoneNumber: String = ""
         
         let path: String = BaseConst.SERVICE_SERVER_HOST + BaseConst.NET_STATION_PHONE
-        
+        print(
+            "stinCd", subwayLineInfo.stinCd,
+            "stinNm", subwayLineInfo.stinNm,
+            "routCd", subwayLineInfo.routCd
+        )
         var params: [String:Any] = [
             "stinCd" : subwayLineInfo.stinCd,
             "stinNm" : subwayLineInfo.stinNm,
             "routCd" : subwayLineInfo.routCd
         ]
         // MARK: 테스트 필요
-        AF.request(path, method: .post, parameters: params, encoding: URLEncoding.queryString, headers: BaseConst.headers).response { response in
+        AF.request(path, method: .post, parameters: params, encoding: URLEncoding.queryString, headers: BaseConst.headers).responseString { response in
             print(response.result)
             switch response.result {
             case .success(let data):
-                print("data: \(data)")
+                UsefulUtils.callTo(phoneNumber: data)
             case .failure(let error):
                 print("error: \(error)")
             }
-//            CommonUtils.callTo(phoneNumber: result["code"].stringValue)
         }
-//        CommonRequest.shared.request(path, params: params) { (result: JSON) in
-//            print("result: \(result)")
-//            CommonUtils.callTo(phoneNumber: result["code"].stringValue)
-//        }
     }
-    
 }
+
 // MARK: Notification
 extension SubwayInfoViewController {
     
@@ -134,7 +133,11 @@ extension SubwayInfoViewController {
         
         subwayInfoLabel.text = "\(subwayLineInfo.stinNm)역 상세정보"
         subwayStationLabel.text = subwayLineInfo.stinNm
-        subwayStationImage.image = UIImage(named: "subway_\(lnCd)")
+        
+        let changeData = SubwayUtils.shared().laneCdChange(laneCd: lnCd)
+        print("changeData : \(changeData), laneCd: \(laneCd), lnCd: \(lnCd)")
+        
+        subwayStationImage.image = UIImage(named: "circle_line_\(changeData)_24")
         
         subwayStationInfo(stinCd: subwayLineInfo.stinCd)
         

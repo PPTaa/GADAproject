@@ -1,6 +1,7 @@
 import UIKit
 import SwiftyJSON
 import SwiftyUserDefaults
+import Alamofire
 
 
 /**
@@ -27,12 +28,7 @@ class JoinCompleteViewController: UIViewController {
         alertDialog = (UIStoryboard.init(name: "Popup", bundle: nil).instantiateViewController(withIdentifier: "AlertPopupView") as! AlertPopupView)
         alertDialog.modalTransitionStyle = .crossDissolve
         alertDialog.modalPresentationStyle = .overCurrentContext
-        
-        
-//        tvTitle.text = "text_join_25".localized()
-//        tvDesc.text = "text_join_26".localized()
-//        btnLogin.setTitle("text_join_27".localized(), for: .normal)
-        
+                
         
         /*
         "text_join_1" = "이용약관";
@@ -82,36 +78,20 @@ class JoinCompleteViewController: UIViewController {
     public func requestJoin() -> Void {
         
         SLoader.showLoading()
-        
-//        let str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-//        let iv = str.createRandomStr(length: 10)
-//        
-//        DataShare.shared().joindao.name = iv
-        
+                
         let dao: JoinDao = DataShare.shared().joindao!
         
+        
         var params:[String:Any] = [
-            "cell_num" : dao.cell_num,
-            "passwd" : dao.passwd,
-            "hc_type" : dao.hc_type,
-            "f_mobil" : dao.f_mobil,
-            "name" : dao.name,
-            "birthymd" : dao.birthymd
+          "category": dao.weak_type,
+          "cell_num": dao.cell_num,
+          "f_mobil": Int(dao.f_mobil) ?? 0,
+          "nickname": dao.name,
+          "optional_terms_yn": 1,
+          "required_terms_yn": 1,
+          "passwd": dao.passwd,
+          "tool_type": dao.hc_type
         ]
-//        CommonRequest.shared.getParams()
-//        params["cell_num"] = dao.cell_num
-//        params["passwd"] = dao.passwd
-//        params["hc_type"] = dao.hc_type
-//        params["f_mobil"] = dao.f_mobil
-//        params["name"] = dao.name
-//        params["birthymd"] = dao.birthymd
-        
-//        if "" != dao.b_type {
-//            params["b_type"] = Int(dao.b_type)
-//            params["g_name"] = dao.g_name
-//            params["gcell_num"] = dao.gcell_num
-//        }
-        
         /*
         cell_num    핸드폰번호    String
         passwd      비밀번호    String
@@ -128,36 +108,31 @@ class JoinCompleteViewController: UIViewController {
         gcell_num   보호자연락처    int
         */
         
-        let path:String = CommonRequest.shared.getServer() + BaseConst.NET_MEMBER_REGISTER
+        print("requestJoin--------", params)
         
-        CommonRequest.shared.request(path, params: params as! [String : Any]) {
-            
-            (_ result: JSON) in
-            
-            SLoader.hide()
-            
-            if !result.isEmpty {
-                
-                print(result)
-                print( result["code"].intValue  )
-                
-                // # 등록 성공 시
-                if result["code"].intValue == 200 {
-                    
-                    DispatchQueue.main.async {
-                        [self] in
-//                        toast(message: "text_join_32".localized())
-                    }
-                }
-                
-                else {
-                    
-                    DispatchQueue.main.async {
-                        [self] in
+        let path:String = BaseConst.GADA_SERVICE_SERVER_HOST + BaseConst.NET_GADA_REGISTER
+        
+        AF.request(path, method: .post, parameters: params, encoding: JSONEncoding.default, headers: BaseConst.headers).responseString { response in
+            switch response.result {
+            case .success(let data):
+                print("--------data",data)
+                let result = JSON(data)
+                if !result.isEmpty {
+                    print(result)
+                    print(result["code"].intValue)
+                    // # 등록 성공 시
+                    if result["code"].intValue == 200 {
+                        SLoader.hide()
                         
-                        failClick!()
+                    } else { // 등록 실패시
+                        DispatchQueue.main.async {
+                            [self] in
+                            failClick!()
+                        }
                     }
                 }
+            case .failure(let error):
+                print("--------error",error.localizedDescription)
             }
         }
     }

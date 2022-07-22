@@ -19,6 +19,7 @@ class SearchPathViewController: UIViewController {
     @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var endLabel: UILabel!
     
+    @IBOutlet weak var allPathBtn: UIButton!
     @IBOutlet weak var customPathBtn: UIButton!
     @IBOutlet weak var shortPathBtn: UIButton!
     @IBOutlet weak var busPathBtn: UIButton!
@@ -45,10 +46,13 @@ class SearchPathViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        UsefulUtils.roundingCorner(view: customPathBtn, borderColor: .black)
-        UsefulUtils.roundingCorner(view: shortPathBtn, borderColor: .black)
-        UsefulUtils.roundingCorner(view: busPathBtn, borderColor: .black)
-        UsefulUtils.roundingCorner(view: subwayPathBtn, borderColor: .black)
+//        UsefulUtils.roundingCorner(view: allPathBtn)
+//        UsefulUtils.roundingCorner(view: customPathBtn)
+//        UsefulUtils.roundingCorner(view: shortPathBtn)
+//        UsefulUtils.roundingCorner(view: busPathBtn)
+//        UsefulUtils.roundingCorner(view: subwayPathBtn)
+        allPathBtn.isSelected = true
+        allPathBtn.layer.cornerRadius = 16
         
         if DataShare.shared().profileDao.f_mobil == "1" {
             myType = 2
@@ -95,8 +99,17 @@ class SearchPathViewController: UIViewController {
     
     // type = 검색 결과
     // 0 : 모두(지하철+버스) 1 : 지하철, 2 : 버스
+    @IBAction func allPathBtnClick(_ sender: UIButton) {
+        buttonSelect(button: sender)
+        if SearchPathViewController.pathType == 0 {
+            return
+        }
+        SearchPathViewController.pathType = 0
+        searchPathData(searchPathType: 0)
+    }
     
-    @IBAction func customPathBtnClick(_ sender: Any) {
+    @IBAction func customPathBtnClick(_ sender: UIButton) {
+        buttonSelect(button: sender)
         if SearchPathViewController.pathType == 1 {
             return
         }
@@ -105,26 +118,39 @@ class SearchPathViewController: UIViewController {
         searchPathData(searchPathType: myType)
         tableView.isScrollEnabled = true
     }
-    @IBAction func shortPathBtnClick(_ sender: Any) {
+    @IBAction func shortPathBtnClick(_ sender: UIButton) {
+        buttonSelect(button: sender)
         if SearchPathViewController.pathType == 2 {
             return
         }
         SearchPathViewController.pathType = 2
         searchPathData(searchPathType: 0)
     }
-    @IBAction func busPathBtnClick(_ sender: Any) {
+    @IBAction func busPathBtnClick(_ sender: UIButton) {
+        buttonSelect(button: sender)
         if SearchPathViewController.pathType == 3 {
             return
         }
         SearchPathViewController.pathType = 3
         searchPathData(searchPathType: 2)
     }
-    @IBAction func subwayPathBtnClick(_ sender: Any) {
+    @IBAction func subwayPathBtnClick(_ sender: UIButton) {
+        buttonSelect(button: sender)
         if SearchPathViewController.pathType == 4 {
             return
         }
         SearchPathViewController.pathType = 4
         searchPathData(searchPathType: 1)
+    }
+    
+    func buttonSelect(button: UIButton) {
+        allPathBtn.isSelected = false
+        customPathBtn.isSelected = false
+        shortPathBtn.isSelected = false
+        busPathBtn.isSelected = false
+        subwayPathBtn.isSelected = false
+        
+        button.isSelected = true
     }
     
 }
@@ -206,6 +232,7 @@ extension SearchPathViewController: UITableViewDelegate, UITableViewDataSource {
             let icon = type == "1" ? "\(lane)" : "bus"
             cell.addDetailView(idx: i, station: station, description: description, icon: icon)
         }
+        
         let (startStation, endStation, type, lane, startExit, endExit) = searchModelLists[row].seName[count - 1]
         let station = type == "1" ? "\(endStation)" : ""
         let description = type == "1" ? "\(endExit)번 출구" : "\(endStation) 하차"
@@ -555,6 +582,7 @@ extension SearchPathViewController {
                             if j["startID"].stringValue != "" {
                                 startID = j["startID"].stringValue
                             }
+                            subwayCode = SubwayUtils.shared().laneCdChange(laneCd: subwayCode)
                             data.exitLatLon.append((startExitLon: startExitX, startExitLat: startExitY, endExitLon: endExitX, endExitLat: endExitY, busNo: busNo))
                             if (startName, endName) != ("","") {
                                 if busNo == "" {

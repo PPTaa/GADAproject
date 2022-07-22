@@ -33,9 +33,4 @@ class NavigationController: UINavigationController {
         return (visibleViewController?.shouldAutorotate)!
     }
 
-    /*
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return (visibleViewController?.supportedInterfaceOrientations)!
-    }
-    */
 }

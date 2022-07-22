@@ -21,6 +21,8 @@ class SearchTransferViewController: UIViewController {
     var baseScale: CGFloat = 1.0
     var minScale: CGFloat = 1.0
     
+    var data: TransferData?
+    
     let tableView: UITableView = {
         let tb = UITableView()
         tb.translatesAutoresizingMaskIntoConstraints = false
@@ -68,6 +70,36 @@ class SearchTransferViewController: UIViewController {
     @IBAction func backBtnClick(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func stationPhoneBtnClick(_ sender: UIButton) {
+        var phoneNumber: String = ""
+        
+        let path: String = BaseConst.SERVICE_SERVER_HOST + BaseConst.NET_STATION_PHONE
+        
+        print(data?.lnCd,
+        data?.stinCd,
+        data?.stinNm)
+        
+        var params: [String:Any] = [
+            "stinCd" : data?.stinCd ?? "",
+            "stinNm" : data?.stinNm ?? "",
+            "routCd" : data?.lnCd ?? ""
+        ]
+        // MARK: 테스트 필요
+        AF.request(path, method: .post, parameters: params, encoding: URLEncoding.queryString, headers: BaseConst.headers).responseString { response in
+            print(response.result)
+            switch response.result {
+            case .success(let data):
+                UsefulUtils.callTo(phoneNumber: data)
+            case .failure(let error):
+                print("error: \(error)")
+            }
+        }
+    }
+    
+    @IBAction func tapFavoritebtn(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+    }
 }
 
 
@@ -106,7 +138,7 @@ extension SearchTransferViewController: UITableViewDelegate, UITableViewDataSour
             return
         }
         let imageUrl = URL(string: self.transferInfo[selectedIndex.row][1].imgPath)
-        self.transferImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "NullImage"))
+        self.transferImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "nullImage"))
         tableView.beginUpdates()
         tableView.reloadRows(at: [selectedIndex], with: .none)
         tableView.endUpdates()
@@ -154,7 +186,7 @@ extension SearchTransferViewController {
                 print(json)
                 if jsonHeader["resultCode"]?.stringValue == "03" {
                     self.transferInfo.append([TransferInfo(isSelected: true, mvPathMgNo: "", elvtSttCd: "", imgPath: "", edMovePath: "", elvtTpCd: "", chtnMvTpOrdr: "", mvContDtl: "null", stMovePath: "")])
-                    self.transferImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "NullImage"))
+                    self.transferImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "nullImage"))
                     self.tableView.reloadData()
                     break
                 }
@@ -177,7 +209,7 @@ extension SearchTransferViewController {
                     imageUrl = URL(string: self.transferInfo[0][1].imgPath)
                 }
                 
-                self.transferImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "NullImage"))
+                self.transferImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "nullImage"))
                 guard let imageUrl = imageUrl else { return }
                 
                 // imageView Size 조절
@@ -206,12 +238,14 @@ extension SearchTransferViewController {
 extension SearchTransferViewController {
     @objc func receiveTransferInfo(_ notification: Notification) {
         let item: TransferData = notification.object as! TransferData
+        data = item
         transferMovementCall(chthTgtLn: item.chthTgtLn, chtnNextStinCd: item.chtnNextStinCd, railOprIsttCd: item.railOprIsttCd, lnCd: item.lnCd, stinCd: item.stinCd, prevStinCd: item.prevStinCd)
-        let end = SubwayUtils.shared().laneCdChange(laneCd: item.chthTgtLn)
-        let start = SubwayUtils.shared().laneCdChange(laneCd: item.lnCd)
-        endLnCd.image = UIImage(named: "subwaySquare-\(end)")
-        startLnCd.image = UIImage(named: "subwaySquare-\(start)")
-        transferStation.text = "\(item.stinNm)역 환승경로"
+        let end = item.chthTgtLn
+        let start = item.lnCd
+        print("receiveTransferInfo", end, start)
+        endLnCd.image = UIImage(named: "circle_line_\(end)_24")
+        startLnCd.image = UIImage(named: "circle_line_\(start)_24")
+        transferStation.text = "\(item.stinNm)역"
     }
     
     // MARK: 제스쳐 관련 함수
@@ -275,7 +309,7 @@ class TransferCell: UITableViewCell {
     
     fileprivate let title: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NotoSansCJKkr-Medium", size: 16.0)
+        label.font = .pretendard(type: .medium, size: 16.0)
         label.text = "title"
         label.textAlignment = .left
         label.sizeToFit()
@@ -285,7 +319,7 @@ class TransferCell: UITableViewCell {
     
     fileprivate let detail: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NotoSansCJKkr-light", size: 14.0)
+        label.font = .pretendard(type: .regular, size: 14.0)
         label.text = "detail"
         label.numberOfLines = 0
         label.textAlignment = .left

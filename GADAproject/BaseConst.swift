@@ -19,8 +19,11 @@ struct BaseConst {
     
     // #
     public static let MAP_API_KEY = "l7xx98d2ab7920cb4d80ae85d92e7772a4b5"
-    public static let ODSAY_API_KEY = "QZAAy+xFjr6Z3q9oIWbBFw"
+    public static let ODSAY_API_KEY = "QZAAy+xFjr6Z3q9oIWbBFw" 
     public static let BUS_API_KEY = "iAh8MOA2pXvhPDWVyA0RQN9VTqsGEclC+SnVsB9dKrrew0sbfHf2ED50PR/7BacLTvyweIs++bH/cFqHJbKpZw=="
+    
+    public static let AIR_KOREA_KEY = "iAh8MOA2pXvhPDWVyA0RQN9VTqsGEclC%2BSnVsB9dKrrew0sbfHf2ED50PR%2F7BacLTvyweIs%2B%2BbH%2FcFqHJbKpZw%3D%3D" // 미세먼지 정보 요청을 위한 키
+    
     
     /**
      - note: 설정
@@ -45,6 +48,8 @@ struct BaseConst {
     
     public static let SERVICE_SERVER_HOST:String = "http://52.79.47.107:8080"
     public static let DEV_SERVER_HOST:String = "http://52.79.47.107:8080"
+    //GADA server
+    public static let GADA_SERVICE_SERVER_HOST:String = "http://52.79.47.107:7000"
     
     public static let NET_MEMBER_REGISTER:String = "/TrafficPathTraced/register" // 회원 가입
     public static let NET_MEMBER_LOGIN:String = "/TrafficPathTraced/login"       // 회원 로그인
@@ -77,8 +82,18 @@ struct BaseConst {
     public static let NET_PATHDATA_SAVE: String = "/TrafficPathTraced/pathdata" // od의 세부 경로 데이터 저장
     public static let NET_TRANSFERDATA_SAVE: String = "/TrafficPathTraced/transferdata" // od의 세부 환승 데이터 저장
     
-    public static let NET_TAXI_LIST: String = "/gada_api-0.0.1/taxi_list_by_division" // 구분 지역으로 콜택시 찾기
+    public static let NET_GADA_REGISTER: String = "/sign-up" // 회원가입
+    public static let NET_GADA_LOGIN: String = "/login" // 로그인
+    public static let NET_TAXI_LIST: String = "/taxi/list/" // 구분 지역으로 콜택시 찾기
     
+    public static let NET_GADA_QUESTION: String = "/footprint/multiple/answer" // 질문에 대한 답변 저장
+    public static let NET_GADA_QUESTION_SUBJECTIVE: String =
+    "/footprint/subjective/answer" // 주관식 질문
+    public static let NET_GADA_QUESTION_PERCENT: String =
+    "/footprint/multiple/ratio" // 질문에 대한 답변 비율
+    public static let NET_GADA_QUESTION_ALL_PERCENT: String =
+    "/footprint/multiple/ratio/list" // 질문에 대한 답변 비율
+        
     // 서비스 이용약관
     public static let NET_TERMS_1:String = "https://jaewoo.kim/handycab/terms/"
     
@@ -94,7 +109,6 @@ struct BaseConst {
     public static let headers: HTTPHeaders = [
         "Content-Type": "application/json",
         "Accept-Charset": "charset=UTF-8",
-        "Authorization": "Bearer "
     ]
     
 }

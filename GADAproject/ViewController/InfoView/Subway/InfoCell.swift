@@ -62,6 +62,7 @@ class InfoCell: UITableViewCell {
         containerView.removeAllSubViews()
     }
     func setting() {
+        contentView.backgroundColor = .baseBackground
         contentView.addSubview(floor)
         contentView.addSubview(containerView)
         contentView.addSubview(lineView)

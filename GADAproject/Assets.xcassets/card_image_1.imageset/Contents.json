@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "toa-heftiba-QnUywvDdI1o-unsplash.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "toa-heftiba-QnUywvDdI1o-unsplash@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "toa-heftiba-QnUywvDdI1o-unsplash@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

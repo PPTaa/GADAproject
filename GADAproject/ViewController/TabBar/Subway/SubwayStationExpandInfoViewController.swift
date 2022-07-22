@@ -39,7 +39,7 @@ class SubwayStationExpandInfoViewController: UIViewController {
         print("stationImageURL : \(stationImageURL)")
         let imageUrl = URL(string: stationImageURL) ?? URL(string: "")
         
-        self.stationInfoImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "subway_no_img"))
+        self.stationInfoImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "nullImage"))
         self.stationInfoImage.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
         
         

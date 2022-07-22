@@ -182,8 +182,12 @@ class JoinViewController: UIViewController {
 
     @IBAction func backClick(_ sender: UIButton) {
         
+        if DataShare.shared().isMainEnter {
+            dismiss(animated: true)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
         print("--> back")
-        self.navigationController?.popViewController(animated: true)
 //        dismiss(animated: true)
     }
     

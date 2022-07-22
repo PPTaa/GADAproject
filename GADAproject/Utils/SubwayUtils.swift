@@ -85,7 +85,7 @@ class SubwayUtils {
         case "116":
             InCd = "K1"
         case "117":
-            InCd = "신림선"
+            InCd = "신림"
         default:
             InCd = laneCd
         }

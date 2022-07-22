@@ -31,9 +31,37 @@ class SubwayStationInfoViewController: UIViewController {
         // Do any additional setup after loading the view.
         print("subwayLiseInfo : \(subwayLineInfo)")
         self.dataSetting()
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(receiveSubwayInfo(_:)), name: .receiveSubwayInfo, object: nil)
     }
     @IBAction func tapBackBtn(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func stationPhoneBtnClick(_ sender: UIButton) {
+        var phoneNumber: String = ""
+        
+        let path: String = BaseConst.SERVICE_SERVER_HOST + BaseConst.NET_STATION_PHONE
+        print(
+            "stinCd", subwayLineInfo?.stinCd,
+            "stinNm", subwayLineInfo?.stinNm,
+            "routCd", subwayLineInfo?.routCd
+        )
+        var params: [String:Any] = [
+            "stinCd" : subwayLineInfo?.stinCd ?? "",
+            "stinNm" : subwayLineInfo?.stinNm ?? "",
+            "routCd" : subwayLineInfo?.routCd ?? ""
+        ]
+        // MARK: 테스트 필요
+        AF.request(path, method: .post, parameters: params, encoding: URLEncoding.queryString, headers: BaseConst.headers).responseString { response in
+            print(response.result)
+            switch response.result {
+            case .success(let data):
+                UsefulUtils.callTo(phoneNumber: data)
+            case .failure(let error):
+                print("error: \(error)")
+            }
+        }
     }
 }
 extension SubwayStationInfoViewController: UITableViewDelegate, UITableViewDataSource {
@@ -53,7 +81,7 @@ extension SubwayStationInfoViewController: UITableViewDelegate, UITableViewDataS
             let imageUrl = URL(string: imageRawUrl) ?? URL(string: "")
         
             imageCell.stationInfoImage.heightAnchor.constraint(equalToConstant: imageHeight).isActive = true
-            imageCell.stationInfoImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "subway_no_img"))
+            imageCell.stationInfoImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "nullImage"))
             imageCell.expandImageBtn.addTarget(self, action: #selector(expandImageBtnClick), for: .touchUpInside)
             return imageCell
         } else {
@@ -84,13 +112,21 @@ extension SubwayStationInfoViewController: UITableViewDelegate, UITableViewDataS
     
     @objc func expandImageBtnClick(sender : UIButton!) {
         print("click")
-        let vc = UIStoryboard(name: "Subway", bundle: nil).instantiateViewController(withIdentifier: "SubwayStationExpandInfoViewController") as! SubwayStationExpandInfoViewController
+        let vc = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "SubwayStationExpandInfoViewController") as! SubwayStationExpandInfoViewController
         vc.stationImageURL = imageRawUrl
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension SubwayStationInfoViewController {
+//    @objc func receiveSubwayInfo(_ notification: Notification) {
+//        print("receiveSubwayInfo : ", notification)
+//        print("receiveSubwayInfo : ", notification.object)
+//        guard let item = notification.object as? SubwayModelBody else { return }
+//        print("receiveSubwayInfo : ", item)
+//        self.subwayLineInfo = item
+//        dataSetting()
+//    }
 
     func dataSetting() {
         let laneCd = subwayLineInfo?.lnCd

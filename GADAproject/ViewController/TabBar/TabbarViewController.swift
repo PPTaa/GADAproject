@@ -21,10 +21,12 @@ class TabbarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        DataShare.shared().isMainEnter = true
         
         subwayLaneSetting()
         // Do any additional setup after loading the view.
     }
+    
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         print(item)
@@ -38,7 +40,7 @@ class TabbarViewController: UITabBarController {
             switch response.result {
             case .success(let data) :
                 do {
-//                    print(data)
+                    print(data)
                     let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
                     let getInstanceData = try JSONDecoder().decode(SearchAllSubwayLane.self, from: jsonData)
                     print("SearchAllSubwayLane result = \(getInstanceData.result) ")

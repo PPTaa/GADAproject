@@ -21,10 +21,15 @@ class DataShare {
         return dataShare
     }
     
+    public var isMainEnter: Bool = false
+    
     public var joindao: JoinDao! = JoinDao()
     public var favoriteDataList = [Favorite]()
     public var subwayLaneList: Array<SubwayLane>?
     public var profileDao: Profile! = Profile()
     public var favoriteDao: [Favorite] = [Favorite]()
     public var favoriteName: [String] = [String]()
+    public var subjectDataList: [(date: String, title: String, answer1: String, answer2: String)]?
+    
+    public var multipleDataList: [(date: String, title: String, selectNum: Int, allQuestion: [String], percentData: [Double])]?
 }

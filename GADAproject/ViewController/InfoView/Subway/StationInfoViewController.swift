@@ -6,18 +6,32 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 import Kingfisher
 
 // 사진 사이즈 조정 필요
 class StationInfoViewController: UIViewController {
 
+    @IBOutlet weak var subwayInfoLabel: UILabel!
+    @IBOutlet weak var subwayStationImage: UIImageView!
+    
     @IBOutlet weak var tableView: UITableView!
         
     var imageHeight: CGFloat = 200.0
     
     var stationInfo = [String:[[String]]]()
     
+    var subwayConvenientInfoList = [[String]]()
+    
+    var subwayLineInfo = SubwayLineModel()
+    
     var imageRawUrl = ""
+    var lnCd = ""
+    var railOprIsttCd = ""
+    var stinCd = ""
+    var phoneNumber = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +41,43 @@ class StationInfoViewController: UIViewController {
         tableView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(receiveSubwayConvenientInfo(_:)), name: .receiveSubwayConvenientInfo, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveSubwayInfo(_:)), name: .receiveSubwayInfo, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         NotificationCenter.default.removeObserver(self, name: .receiveSubwayConvenientInfo, object: nil)
+        
+        NotificationCenter.default.removeObserver(self, name: .receiveSubwayInfo, object: nil)
+    }
+    
+    @IBAction func tapBackBtn(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func stationPhoneBtnClick(_ sender: UIButton) {
+        var phoneNumber: String = ""
+        
+        let path: String = BaseConst.SERVICE_SERVER_HOST + BaseConst.NET_STATION_PHONE
+        
+        var params: [String:Any] = [
+            "stinCd" : subwayLineInfo.stinCd,
+            "stinNm" : subwayLineInfo.stinNm,
+            "routCd" : subwayLineInfo.routCd
+        ]
+        // MARK: 테스트 필요
+        AF.request(path, method: .post, parameters: params, encoding: URLEncoding.queryString, headers: BaseConst.headers).responseString { response in
+            switch response.result {
+            case .success(let data):
+                UsefulUtils.callTo(phoneNumber: data)
+            case .failure(let error):
+                print("error: \(error)")
+            }
+        }
+    }
+    @IBAction func tapFavoritebtn(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
     }
 }
 
@@ -55,7 +101,7 @@ extension StationInfoViewController: UITableViewDelegate, UITableViewDataSource 
             let imageUrl = URL(string: imageRawUrl) ?? URL(string: "")
             
             imageCell.stationInfoImage.heightAnchor.constraint(equalToConstant: imageHeight).isActive = true
-            imageCell.stationInfoImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "NullImage"))
+            imageCell.stationInfoImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "nullImage"))
             imageCell.expandImageBtn.addTarget(self, action: #selector(expandImageBtnClick), for: .touchUpInside)
             imageCell.separatorInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
             return imageCell
@@ -96,6 +142,32 @@ extension StationInfoViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 extension StationInfoViewController {
+    
+    @objc func receiveSubwayInfo(_ notification: Notification) {
+        print("receiveSubwayInfo")
+        let item = notification.object as! SubwayLineModel
+        subwayLineInfo = item
+        let laneCd = subwayLineInfo.lnCd
+        lnCd = SubwayUtils.shared().laneCdChange(laneCd: laneCd)
+        stinCd = subwayLineInfo.stinCd
+        railOprIsttCd = subwayLineInfo.railOprIsttCd
+        
+        subwayInfoLabel.text = "\(subwayLineInfo.stinNm)역"
+//        subwayStationLabel.text = subwayLineInfo.stinNm
+        
+        let changeData = SubwayUtils.shared().laneCdChange(laneCd: lnCd)
+        print("changeData : \(changeData), laneCd: \(laneCd), lnCd: \(lnCd)")
+        
+        subwayStationImage.image = UIImage(named: "circle_line_\(changeData)_24")
+        
+        subwayStationInfo(stinCd: subwayLineInfo.stinCd)
+        
+        subwayConvenientInfoCall(lnCd: subwayLineInfo.lnCd, railOprIsttCd: subwayLineInfo.railOprIsttCd, stinCd: subwayLineInfo.stinCd)
+        
+        NotificationCenter.default.post(name: .reviewInfo, object: [subwayLineInfo.stinNm, subwayLineInfo.lnCd, "0"])
+        
+        
+    }
     
     @objc func receiveSubwayConvenientInfo(_ notification: Notification) {
         print("receiveSubwayInfo")
@@ -140,4 +212,87 @@ extension StationInfoViewController {
             }
         }
     }
+    
+    private func subwayStationInfo(stinCd: String) {
+        print("func subwayStationInfo call stinCd : \(stinCd)")
+        ODsayService.sharedInst().requestSubwayStationInfo(stinCd, responseBlock: { (retCode: Int32, resultDic:[AnyHashable : Any]?) in
+            if retCode == 200 {
+                let jsonResult = JSON(resultDic)["result"]
+                self.phoneNumber = jsonResult["defaultInfo"]["tel"].stringValue
+            } else {
+                print("fail")
+            }
+        })
+    }
+    
+    // 도시철도 역사편의정보 API
+    private func subwayConvenientInfoCall(lnCd: String, railOprIsttCd: String, stinCd: String) {
+        print("도시철도 역사편의정보 API")
+        print("도시철도 역사편의정보 API \(lnCd), \(railOprIsttCd), \(stinCd)")
+        let para : Parameters = [
+            "serviceKey": "$2a$10$o/DL6MPbsjRS2llxGiiOH.wSfVCQ12fX35EXR39AlcGWAtztWle0O",
+            "format": "json",
+            "lnCd": lnCd,
+            "railOprIsttCd": railOprIsttCd,
+            "stinCd": stinCd
+            
+        ]
+        AF.request("http://openapi.kric.go.kr/openapi/convenientInfo/stationCnvFacl",parameters: para, encoding: URLEncoding.queryString).responseJSON { response in
+            switch response.result {
+            case .success(let data) :
+                let jsonHeader = JSON(data)["header"]
+                let jsonBody = JSON(data)["body"]
+                if jsonHeader["resultCode"].stringValue == "03" {
+                    NotificationCenter.default.post(name: .receiveSubwayConvenientInfo, object: self.subwayConvenientInfoList)
+                    break
+                }
+                let imgPath = jsonBody[0]["imgPath"].stringValue
+                // 이미지 경로 오류로 경로 변경
+                var updateImgPath = imgPath.split(separator: ".")
+                updateImgPath[1] = "kric.go"
+                var reCreateImgPath:String = ""
+                let number = updateImgPath.count
+                for (i, v) in updateImgPath.enumerated() {
+                    reCreateImgPath += v
+                    if i != number - 1 {
+                        reCreateImgPath += "."
+                    }
+                }
+                for i in jsonBody {
+                    var gubun = i.1["gubun"].stringValue
+                    let mlFmlDvCd = i.1["mlFmlDvCd"].stringValue
+                    let stinFlor = i.1["stinFlor"].stringValue
+                    let trfcWeakDvCd = i.1["trfcWeakDvCd"].stringValue
+                    let grndDvCd = i.1["grndDvCd"].stringValue
+                    let dtlLoc = i.1["dtlLoc"].stringValue
+                    //(EV: 엘리베이터, ES: 에스컬레이터, WCLF: 휠체어 리프트, ELEC: 전동 휠체어 충전 설비, TOLT: 화장실, INFO: 고객센터, FEED: 수유실)
+                    switch gubun {
+                    case "EV":
+                        gubun = "엘리베이터"
+                    case "ES":
+                        gubun = "에스컬레이터"
+                    case "WCLF":
+                        gubun = "휠체어리프트"
+                    case "ELEC":
+                        gubun = "전동휠체어 충전설비"
+                    case "TOLT":
+                        gubun = "화장실"
+                    case "INFO":
+                        gubun = "고객센터"
+                    case "FEED":
+                        gubun = "수유실"
+                    default:
+                        gubun = "엘리베이터"
+                    }
+                    self.subwayConvenientInfoList.append([gubun, mlFmlDvCd, stinFlor, trfcWeakDvCd, grndDvCd, dtlLoc, reCreateImgPath])
+                }
+                NotificationCenter.default.post(name: .receiveSubwayConvenientInfo, object: self.subwayConvenientInfoList)
+                break
+            case .failure(let error):
+                print("error: \(error)")
+                break
+            }
+        }
+    }
+    
 }

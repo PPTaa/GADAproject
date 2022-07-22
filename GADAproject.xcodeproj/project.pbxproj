@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		51F933C3AA81ABD846C9F5CC /* Pods_GADAproject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9BFE1084347106568281D /* Pods_GADAproject.framework */; };
+		7C0317C42887F6D900CB702D /* SurveySubjectiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0317C32887F6D900CB702D /* SurveySubjectiveViewController.swift */; };
 		7C06422C2874280400C04283 /* CommonRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C06422B2874280400C04283 /* CommonRequest.swift */; };
 		7C06422F287444A100C04283 /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C06422E287444A100C04283 /* Register.storyboard */; };
 		7C0642312874451B00C04283 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0642302874451B00C04283 /* JoinViewController.swift */; };
@@ -41,6 +42,14 @@
 		7C2532362881309D0032458C /* TaxiInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2532352881309C0032458C /* TaxiInfoViewController.swift */; };
 		7C25323828813CAA0032458C /* MyNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25323728813CAA0032458C /* MyNavigationViewController.swift */; };
 		7C25323A28813E470032458C /* MyViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25323928813E470032458C /* MyViewController2.swift */; };
+		7C312AA72887890800AEB05C /* SurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C312AA62887890800AEB05C /* SurveyViewController.swift */; };
+		7C312AA928878F5400AEB05C /* SurveyCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C312AA828878F5400AEB05C /* SurveyCardCell.swift */; };
+		7C41DED628882A2600B88AC9 /* ChallengeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41DED528882A2600B88AC9 /* ChallengeData.swift */; };
+		7C41DED828882AD400B88AC9 /* StoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41DED728882AD400B88AC9 /* StoreData.swift */; };
+		7C41DEDA2888330E00B88AC9 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C41DED92888330E00B88AC9 /* Home.storyboard */; };
+		7C41DEDC2888394300B88AC9 /* HomeChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41DEDB2888394300B88AC9 /* HomeChallengeViewController.swift */; };
+		7C41DEDE2888396200B88AC9 /* HomeStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41DEDD2888396200B88AC9 /* HomeStoreViewController.swift */; };
+		7C41DEE028893F4000B88AC9 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41DEDF28893F4000B88AC9 /* UIImage.swift */; };
 		7C45210D28647BEB0099B5D0 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C223DE62864736200D3295E /* Montserrat-Bold.ttf */; };
 		7C45210E28647BEE0099B5D0 /* NotoSansCJKkr-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C223DEA286473CF00D3295E /* NotoSansCJKkr-Bold.otf */; };
 		7C45210F28647BF00099B5D0 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C223DE52864736100D3295E /* Montserrat-SemiBold.ttf */; };
@@ -77,6 +86,9 @@
 		7C64D087286EF3BD007504F7 /* SearchPathResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C64D086286EF3BD007504F7 /* SearchPathResultModel.swift */; };
 		7C64D089286EF479007504F7 /* LoadLaneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C64D088286EF479007504F7 /* LoadLaneModel.swift */; };
 		7C64D08B286EF536007504F7 /* DetailPathCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C64D08A286EF536007504F7 /* DetailPathCell.swift */; };
+		7C93BD612886D1E000AA13D1 /* catLoader.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C93BD5E2886D1E000AA13D1 /* catLoader.json */; };
+		7C93BD622886D1E000AA13D1 /* handycabLoading1.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C93BD5F2886D1E000AA13D1 /* handycabLoading1.json */; };
+		7C93BD632886D1E000AA13D1 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C93BD602886D1E000AA13D1 /* loading.json */; };
 		7C9E732328696D02005FC968 /* ReverseGCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E732228696D02005FC968 /* ReverseGCModel.swift */; };
 		7CA06B85286B055C00943F90 /* PulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06B80286B055C00943F90 /* PulseAnimation.swift */; };
 		7CA06B86286B055C00943F90 /* STTPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA06B81286B055C00943F90 /* STTPopupView.swift */; };
@@ -136,6 +148,7 @@
 		7CC83461286324C9007CE388 /* BaseConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC83460286324C9007CE388 /* BaseConst.swift */; };
 		7CC83463286325BE007CE388 /* DataShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC83462286325BE007CE388 /* DataShared.swift */; };
 		7CC834652863289F007CE388 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC834642863289F007CE388 /* UIView.swift */; };
+		7CF25F8D2887FC040014E76A /* Survey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CF25F8C2887FC040014E76A /* Survey.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -155,6 +168,7 @@
 /* Begin PBXFileReference section */
 		0F5362F51F30E0F88A00385D /* Pods-GADAproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GADAproject.release.xcconfig"; path = "Target Support Files/Pods-GADAproject/Pods-GADAproject.release.xcconfig"; sourceTree = "<group>"; };
 		4F57B645E3DB94FA3CEA338D /* Pods-GADAproject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GADAproject.debug.xcconfig"; path = "Target Support Files/Pods-GADAproject/Pods-GADAproject.debug.xcconfig"; sourceTree = "<group>"; };
+		7C0317C32887F6D900CB702D /* SurveySubjectiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveySubjectiveViewController.swift; sourceTree = "<group>"; };
 		7C06422B2874280400C04283 /* CommonRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonRequest.swift; sourceTree = "<group>"; };
 		7C06422E287444A100C04283 /* Register.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Register.storyboard; sourceTree = "<group>"; };
 		7C0642302874451B00C04283 /* JoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +212,14 @@
 		7C2532352881309C0032458C /* TaxiInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiInfoViewController.swift; sourceTree = "<group>"; };
 		7C25323728813CAA0032458C /* MyNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNavigationViewController.swift; sourceTree = "<group>"; };
 		7C25323928813E470032458C /* MyViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController2.swift; sourceTree = "<group>"; };
+		7C312AA62887890800AEB05C /* SurveyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
+		7C312AA828878F5400AEB05C /* SurveyCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyCardCell.swift; sourceTree = "<group>"; };
+		7C41DED528882A2600B88AC9 /* ChallengeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeData.swift; sourceTree = "<group>"; };
+		7C41DED728882AD400B88AC9 /* StoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreData.swift; sourceTree = "<group>"; };
+		7C41DED92888330E00B88AC9 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		7C41DEDB2888394300B88AC9 /* HomeChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeChallengeViewController.swift; sourceTree = "<group>"; };
+		7C41DEDD2888396200B88AC9 /* HomeStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStoreViewController.swift; sourceTree = "<group>"; };
+		7C41DEDF28893F4000B88AC9 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		7C49A78B28769C31007CB6B6 /* JoinTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTypeViewController.swift; sourceTree = "<group>"; };
 		7C49A78D2876C6DA007CB6B6 /* JoinEmergencyNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinEmergencyNumberViewController.swift; sourceTree = "<group>"; };
 		7C49A78F2877F8A4007CB6B6 /* TabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
@@ -225,6 +247,9 @@
 		7C64D086286EF3BD007504F7 /* SearchPathResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPathResultModel.swift; sourceTree = "<group>"; };
 		7C64D088286EF479007504F7 /* LoadLaneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadLaneModel.swift; sourceTree = "<group>"; };
 		7C64D08A286EF536007504F7 /* DetailPathCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPathCell.swift; sourceTree = "<group>"; };
+		7C93BD5E2886D1E000AA13D1 /* catLoader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = catLoader.json; sourceTree = "<group>"; };
+		7C93BD5F2886D1E000AA13D1 /* handycabLoading1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = handycabLoading1.json; sourceTree = "<group>"; };
+		7C93BD602886D1E000AA13D1 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		7C9E732228696D02005FC968 /* ReverseGCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseGCModel.swift; sourceTree = "<group>"; };
 		7CA06B80286B055C00943F90 /* PulseAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulseAnimation.swift; sourceTree = "<group>"; };
 		7CA06B81286B055C00943F90 /* STTPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STTPopupView.swift; sourceTree = "<group>"; };
@@ -287,6 +312,7 @@
 		7CC83460286324C9007CE388 /* BaseConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConst.swift; sourceTree = "<group>"; };
 		7CC83462286325BE007CE388 /* DataShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataShared.swift; sourceTree = "<group>"; };
 		7CC834642863289F007CE388 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		7CF25F8C2887FC040014E76A /* Survey.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Survey.storyboard; sourceTree = "<group>"; };
 		F3B9BFE1084347106568281D /* Pods_GADAproject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GADAproject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -475,8 +501,21 @@
 			children = (
 				7C49A7BC287ED44A007CB6B6 /* HomeViewController.swift */,
 				7C49A7BE287ED46C007CB6B6 /* HomeNavigationViewController.swift */,
+				7C41DED92888330E00B88AC9 /* Home.storyboard */,
+				7C41DEDB2888394300B88AC9 /* HomeChallengeViewController.swift */,
+				7C41DEDD2888396200B88AC9 /* HomeStoreViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		7C93BD5D2886D1CA00AA13D1 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				7C93BD5E2886D1E000AA13D1 /* catLoader.json */,
+				7C93BD5F2886D1E000AA13D1 /* handycabLoading1.json */,
+				7C93BD602886D1E000AA13D1 /* loading.json */,
+			);
+			path = Lottie;
 			sourceTree = "<group>";
 		};
 		7CA06B7F286B055C00943F90 /* popup */ = {
@@ -616,6 +655,7 @@
 		7CC8343F2862DDC2007CE388 /* GADAproject */ = {
 			isa = PBXGroup;
 			children = (
+				7C93BD5D2886D1CA00AA13D1 /* Lottie */,
 				7C0642532875540B00C04283 /* GADAproject.entitlements */,
 				7C223DE72864736500D3295E /* font */,
 				7CC834402862DDC2007CE388 /* AppDelegate.swift */,
@@ -646,6 +686,10 @@
 				7CC83459286306F5007CE388 /* PathFind */,
 				7CA5115A2872F12500ED90E5 /* InfoView */,
 				7C49A7912877F8A8007CB6B6 /* TabBar */,
+				7C312AA62887890800AEB05C /* SurveyViewController.swift */,
+				7C0317C32887F6D900CB702D /* SurveySubjectiveViewController.swift */,
+				7C312AA828878F5400AEB05C /* SurveyCardCell.swift */,
+				7CF25F8C2887FC040014E76A /* Survey.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -672,6 +716,8 @@
 				7CA06B9C286D395D00943F90 /* Subway */,
 				7CC8345F2863237E007CE388 /* PathFind */,
 				7C49A7B9287ECBA5007CB6B6 /* Taxi */,
+				7C41DED528882A2600B88AC9 /* ChallengeData.swift */,
+				7C41DED728882AD400B88AC9 /* StoreData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -701,6 +747,7 @@
 				7CA5116B2874039700ED90E5 /* UIViewController.swift */,
 				7CA5116D28740B0500ED90E5 /* UIColor.swift */,
 				7C06424B28751D0E00C04283 /* UIPageViewController.swift */,
+				7C41DEDF28893F4000B88AC9 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -786,12 +833,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CF25F8D2887FC040014E76A /* Survey.storyboard in Resources */,
 				7C45211228647BF70099B5D0 /* Montserrat-Regular.ttf in Resources */,
 				7C45211528647BFD0099B5D0 /* NotoSansCJKkr-Light.otf in Resources */,
 				7C06422F287444A100C04283 /* Register.storyboard in Resources */,
+				7C41DEDA2888330E00B88AC9 /* Home.storyboard in Resources */,
 				7C45210F28647BF00099B5D0 /* Montserrat-SemiBold.ttf in Resources */,
 				7CA06B8B286B05B000943F90 /* Popup.storyboard in Resources */,
 				7C45210D28647BEB0099B5D0 /* Montserrat-Bold.ttf in Resources */,
+				7C93BD632886D1E000AA13D1 /* loading.json in Resources */,
+				7C93BD622886D1E000AA13D1 /* handycabLoading1.json in Resources */,
 				7C45210E28647BEE0099B5D0 /* NotoSansCJKkr-Bold.otf in Resources */,
 				7C45211028647BF20099B5D0 /* Montserrat-Medium.ttf in Resources */,
 				7C45211328647BF90099B5D0 /* NotoSansCJKkr-Regular.otf in Resources */,
@@ -808,6 +859,7 @@
 				7C064257287559C100C04283 /* GoogleService-Info.plist in Resources */,
 				7C45211128647BF30099B5D0 /* NotoSansCJKkr-Medium.otf in Resources */,
 				7CA06BA0286D41EF00943F90 /* Localizable.strings in Resources */,
+				7C93BD612886D1E000AA13D1 /* catLoader.json in Resources */,
 				7C206374286D8BAB008F23A8 /* PathFind.storyboard in Resources */,
 				7CA5114E2872EC6B00ED90E5 /* InfoMenuCell.xib in Resources */,
 				7CA22039286AF7B300C28548 /* Login.storyboard in Resources */,
@@ -875,9 +927,11 @@
 				7C25323828813CAA0032458C /* MyNavigationViewController.swift in Sources */,
 				7CA06B88286B055C00943F90 /* ConfirmPopupView.swift in Sources */,
 				7C49A7BF287ED46C007CB6B6 /* HomeNavigationViewController.swift in Sources */,
+				7C41DEDC2888394300B88AC9 /* HomeChallengeViewController.swift in Sources */,
 				7CA2205A286AFFFD00C28548 /* SplashViewController.swift in Sources */,
 				7C49A7BB287ECEA2007CB6B6 /* TaxiSearchViewController.swift in Sources */,
 				7C49A7B2287EC21E007CB6B6 /* TaxiNavigationViewController.swift in Sources */,
+				7C312AA72887890800AEB05C /* SurveyViewController.swift in Sources */,
 				7CC834572863001F007CE388 /* UsefulUtils.swift in Sources */,
 				7CA06B8D286B079600943F90 /* TriangleView.swift in Sources */,
 				7C06423E287445A800C04283 /* JoinPhoneViewController.swift in Sources */,
@@ -899,6 +953,7 @@
 				7C06424C28751D0E00C04283 /* UIPageViewController.swift in Sources */,
 				7C49A7932877F8E4007CB6B6 /* SubwayNavigationViewController.swift in Sources */,
 				7C64D087286EF3BD007504F7 /* SearchPathResultModel.swift in Sources */,
+				7C312AA928878F5400AEB05C /* SurveyCardCell.swift in Sources */,
 				7CA5116E28740B0500ED90E5 /* UIColor.swift in Sources */,
 				7C64D089286EF479007504F7 /* LoadLaneModel.swift in Sources */,
 				7C49A7A428781BD5007CB6B6 /* SubwayViewController.swift in Sources */,
@@ -906,6 +961,7 @@
 				7CA511542872EC6B00ED90E5 /* StaionsByRouteList.swift in Sources */,
 				7C49A7B4287EC7B9007CB6B6 /* TaxiListTableCell.swift in Sources */,
 				7CA5114D2872EC6B00ED90E5 /* BusInfoTableCell.swift in Sources */,
+				7C0317C42887F6D900CB702D /* SurveySubjectiveViewController.swift in Sources */,
 				7C49A7BD287ED44A007CB6B6 /* HomeViewController.swift in Sources */,
 				7C49A7902877F8A4007CB6B6 /* TabbarViewController.swift in Sources */,
 				7C64D08B286EF536007504F7 /* DetailPathCell.swift in Sources */,
@@ -942,6 +998,8 @@
 				7CA06B89286B055C00943F90 /* AlertPopupView.swift in Sources */,
 				7C64D083286EF203007504F7 /* SearchPathResultViewController.swift in Sources */,
 				7C06423D287445A800C04283 /* JoinNickNameViewController.swift in Sources */,
+				7C41DED828882AD400B88AC9 /* StoreData.swift in Sources */,
+				7C41DED628882A2600B88AC9 /* ChallengeData.swift in Sources */,
 				7C49A7A828781DF2007CB6B6 /* SubwayCollectionViewCell.swift in Sources */,
 				7CC834432862DDC2007CE388 /* SceneDelegate.swift in Sources */,
 				7CA06BAF286D839600943F90 /* Notification.swift in Sources */,
@@ -954,6 +1012,7 @@
 				7C06423A287445A800C04283 /* JoinPasswordViewController.swift in Sources */,
 				7C49A7AA287BA9B1007CB6B6 /* SubwaySearchViewController.swift in Sources */,
 				7CA22044286AFB7000C28548 /* LoginViewController.swift in Sources */,
+				7C41DEE028893F4000B88AC9 /* UIImage.swift in Sources */,
 				7CC8345D2863235D007CE388 /* FavoriteModel.swift in Sources */,
 				7CA5113D2872EADF00ED90E5 /* SubwayUtils.swift in Sources */,
 				7C9E732328696D02005FC968 /* ReverseGCModel.swift in Sources */,
@@ -963,6 +1022,7 @@
 				7C49A79E28780DC1007CB6B6 /* MyViewController.swift in Sources */,
 				7CC83463286325BE007CE388 /* DataShared.swift in Sources */,
 				7CA511522872EC6B00ED90E5 /* BusLocationById.swift in Sources */,
+				7C41DEDE2888396200B88AC9 /* HomeStoreViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1136,6 +1196,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GADAproject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "가다";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = aaa;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = aaa;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = bbb;
@@ -1151,7 +1212,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartmobility.GADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1178,6 +1239,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GADAproject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "가다";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = aaa;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = aaa;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = bbb;
@@ -1193,7 +1255,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartmobility.GADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

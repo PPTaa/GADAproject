@@ -21,6 +21,8 @@ class FloatingViewController : UIViewController {
     @IBOutlet weak var boundaryView: UIView!
     @IBOutlet weak var emptyView: UIView!
     
+    var busRouteInfoItem = [Int(): RouteInfoItem()]
+    
     // 경로 아이콘
     let icon: UIImageView = {
         let icon = UIImageView()
@@ -31,42 +33,46 @@ class FloatingViewController : UIViewController {
     // 소요 시간 표기
     let totalTime: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "Montserrat-SemiBold", size: 24)
+        text.textColor = .textPrimary
+        text.font = UIFont.pretendard(type: .bold, size: 24)
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     // 환승 횟수 표기
     let transferNum: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "NotoSansCJKkr-Regular", size: 12)
+        text.textColor = .textSecondary
+        text.font = UIFont.pretendard(type: .medium, size: 14)
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     // 사이 선
     let line1: UIView = {
         let line = UIView()
-        line.backgroundColor = .black
+        line.backgroundColor = .textSecondary
         line.translatesAutoresizingMaskIntoConstraints = false
         return line
     }()
     // 보행 시간 표기
     let walkTime: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "NotoSansCJKkr-Regular", size: 12)
+        text.textColor = .textSecondary
+        text.font = UIFont.pretendard(type: .medium, size: 14)
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     // 사이 선
     let line2: UIView = {
         let line = UIView()
-        line.backgroundColor = .black
+        line.backgroundColor = .textSecondary
         line.translatesAutoresizingMaskIntoConstraints = false
         return line
     }()
     // 도착 예상 시간 표기
     let endTime: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "Montserrat-Regular", size: 12)
+        text.textColor = .textSecondary
+        text.font = UIFont.pretendard(type: .medium, size: 14)
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
@@ -77,13 +83,13 @@ class FloatingViewController : UIViewController {
         return view
     }()
     // 기본 라인
-    let basicLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "color-gray-30")
-        view.layer.cornerRadius = 2
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+//    let basicLine: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = UIColor(named: "color-gray-30")
+//        view.layer.cornerRadius = 2
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        return view
+//    }()
     
     let tableView: UITableView = {
         let tb = UITableView()
@@ -176,12 +182,12 @@ class FloatingViewController : UIViewController {
             $0.leading.trailing.bottom.equalTo(layoutView)
         }
         
-        containerView.addSubview(basicLine)
-        basicLine.snp.makeConstraints {
-            $0.leading.trailing.equalTo(containerView)
-            $0.top.equalTo(containerView).offset(17.4)
-            $0.height.equalTo(4)
-        }
+//        containerView.addSubview(basicLine)
+//        basicLine.snp.makeConstraints {
+//            $0.leading.trailing.equalTo(containerView)
+//            $0.top.equalTo(containerView).offset(17.4)
+//            $0.height.equalTo(4)
+//        }
     }
     
     fileprivate func setupTableView() {
@@ -219,10 +225,12 @@ extension FloatingViewController {
         print("noti-----", item.busNo)
         print("startLabel, \(SearchViewController.startLocationString)")
         print("startLabel, \(SearchViewController.endLocationString)")
-        for i in item.detailPathData {
-            print("ooooo\(i)")
-            data.append(i)
-        }
+        data = item.detailPathData
+        tableView.reloadData()
+//        for i in item.detailPathData {
+//            print("ooooo\(i)")
+//            data.append(i)
+//        }
         
         let dateFormatter: DateFormatter = {
             let dateFormatter = DateFormatter()
@@ -271,23 +279,25 @@ extension FloatingViewController {
         let lineView = UIView()
         let lineLabel = UILabel()
     
-        lineLabel.font = UIFont(name: "NotoSansCJKkr-Regular", size: 9.5)
+        lineLabel.font = UIFont.pretendard(type: .bold, size: 10)
         lineLabel.text = time
         lineLabel.translatesAutoresizingMaskIntoConstraints = false
         
         print("run addLineView \(idx), \(lnCd), \(length)")
         
         if lnCd == "bus" {
-            lineView.backgroundColor = .black
+            lineView.backgroundColor = .baseGray600
+            lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
         } else if lnCd == "walk" {
-            lineView.backgroundColor = UIColor(named: "color-gray-30")
+            lineView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+            lineView.backgroundColor = .baseGray300
         } else {
+            lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
             lineView.backgroundColor = UIColor(named: "color-\(lnCd)")
         }
         
         lineView.layer.cornerRadius = 2
         lineView.widthAnchor.constraint(equalToConstant: length).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
         lineView.translatesAutoresizingMaskIntoConstraints = false
         
         if idx == 0 {
@@ -318,19 +328,33 @@ extension FloatingViewController {
     }
 }
 
-
+//MARK: TableView Config
 extension FloatingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = indexPath.row
         
         if selectedIndex == indexPath {
             if !data[row].isSelected {
-                return 84
+                if data[row].laneCd == "bus" {
+                    return 100 + 32
+                } else {
+                    return 100
+                }
             } else {
-                return CGFloat(84 + Double(data[row].stationList.count * 18))
+                if data[row].laneCd == "bus" {
+                    return CGFloat(100 + 32 + Double(data[row].stationList.count * 18))
+                } else {
+                    return CGFloat(100 + Double(data[row].stationList.count * 18))
+                }
             }
         }
-        return 84
+//        return 84 + 38
+        if row < data.count {
+            if data[row].laneCd == "bus" {
+                return 100 + 32
+            }
+        }
+        return 100
     }
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -378,15 +402,22 @@ extension FloatingViewController: UITableViewDelegate, UITableViewDataSource {
             return cellWalk
         } else {
             cell.data = data[row]
+            
+            if data[row].laneCd == "bus" {
+                busRouteInfoCall(row: row, busLocalBlID: data[row].busLocalBlID ?? "")
+                cell.busLaneCallBtn.tag = row
+                cell.busLaneCallBtn.addTarget(self, action: #selector(busLaneCall), for: .touchUpInside)
+            }
+            
             if row > 0 {
                 cell.postData = data[row-1]
+                print("cell.postData = data[row-1] - \(cell.postData = data[row-1])")
             }
             if cell.stationInfoBtn.isTransfer ?? false {
                 print("cell.stationInfoBtn.isTransfer : \(cell.stationInfoBtn.isTransfer)")
                 cell.stationInfoBtn.nextStinNm = data[row].stationList[1]
                 print(cell.stationInfoBtn.nextStinNm)
             }
-            
             cell.stationInfoBtn.tag = row
             cell.stationInfoBtn.isTrue = false
             cell.stationInfoBtn.addTarget(self, action: #selector(stationInfoBtnClick), for: .touchUpInside)
@@ -417,9 +448,25 @@ extension FloatingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         tableView.beginUpdates()
         tableView.reloadRows(at: [selectedIndex], with: .none)
+
         tableView.endUpdates()
         
     }
+    
+    
+    @objc func busLaneCall(sender: CustomButton) {
+        let row = sender.tag
+        print(busRouteInfoItem[row])
+        let phoneNum = busRouteInfoItem[row]?.corpNm?.components(separatedBy: " ") ?? []
+        if phoneNum.count == 1 {
+            // 전화번호 없을때의 로직
+        } else {
+            guard let callNum = phoneNum.last else { return }
+            UsefulUtils.callTo(phoneNumber: callNum)
+        }
+        print(phoneNum)
+    }
+    
     
     @objc func stationInfoBtnClick(sender: CustomButton) {
         print("stationInfoBtn Click laneCd : \(sender.laneCd)") // 버튼별 대중교통 종류
@@ -428,12 +475,12 @@ extension FloatingViewController: UITableViewDelegate, UITableViewDataSource {
         print("stationInfoBtn Click isTransfer : \(sender.isTransfer)") // 환승경로인지 판다
         print("stationInfoBtn Click data : \(data[sender.tag])") // 데이터 확인용
          
-        let laneCd = data[sender.tag].laneCd
-        let lnCd = SubwayUtils.shared().laneCdChange(laneCd: laneCd)
+//        let laneCd = data[sender.tag].laneCd
+//        let lnCd = SubwayUtils.shared().laneCdChange(laneCd: laneCd)
+        let lnCd = data[sender.tag].laneCd
         if sender.laneCd == "bus" {
             guard let busLocalBlID = data[sender.tag].busLocalBlID else { return }
-            print("busbusbus", data[sender.tag])
-            let vc = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "BusInfoViewController") as! BusInfoViewController
+            let vc = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "BusDetailInfoViewController") as! BusDetailInfoViewController
             vc.busLocalBlID = busLocalBlID
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .fullScreen
@@ -455,7 +502,7 @@ extension FloatingViewController: UITableViewDelegate, UITableViewDataSource {
                     nextStinNm = "대림(구로구청)"
                 }
                 // 환승 시작 선코드, 역코드, 철도운영기관코드
-                subwayRouteInfoCall(lnCd: prevlnCd, row: sender.tag, isWalk: sender.isTrue ?? false, isTransfer: true, isFirst: true)
+                subwayRouteInfoCall(lnCd: prevLaneCd, row: sender.tag, isWalk: sender.isTrue ?? false, isTransfer: true, isFirst: true)
                 // 환승 이후 선코드, 이전역코드, 다음역코드
                 usleep(100000)
                 // 다음역
@@ -475,7 +522,8 @@ extension FloatingViewController: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     subwayRouteInfoCall(lnCd: lnCd, row: sender.tag, isWalk: sender.isTrue ?? false, nowStinNm: data[sender.tag].title)
                 }
-                let vc = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "SubwayInfoViewController") as! SubwayInfoViewController
+                
+                let vc = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "StationInfoViewController") as! StationInfoViewController
                 vc.modalTransitionStyle = .crossDissolve
                 vc.modalPresentationStyle = .fullScreen
                 present(vc, animated: true, completion: nil)
@@ -693,6 +741,7 @@ extension FloatingViewController {
                         if self.data[row].title == "현재위치" {
                             if exceptStationList.contains(self.data[row].routeEndData![1])  {
                                 if i.stinNm == self.data[row].routeEndData![1] {
+                                    
                                     NotificationCenter.default.post(name: .receiveSubwayInfo, object: i)
                                     break
                                 }
@@ -774,6 +823,32 @@ extension FloatingViewController {
         
         return (prevStinCd, nextStinCd)
     }
+    
+    func busRouteInfoCall(row: Int, busLocalBlID: String) {
+        let para : Parameters = [
+            "serviceKey": BaseConst.BUS_API_KEY,
+            "busRouteId": busLocalBlID,
+            "resultType": "json"
+        ]
+        AF.request("http://ws.bus.go.kr/api/rest/busRouteInfo/getRouteInfo",parameters: para, encoding: URLEncoding.queryString).responseJSON { response in
+            switch response.result {
+            case .success(let data) :
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+                    let getInstanceData = try JSONDecoder().decode(BusRouteInfo.self, from: jsonData)
+                    guard let item = getInstanceData.msgBody?.itemList?[0] else { return }
+                    self.busRouteInfoItem[row] = item
+//                    NotificationCenter.default.post(name: .busRouteInfoData, object: item)
+//                    NotificationCenter.default.post(name: .reviewInfo, object: [item.busRouteNm, item.busRouteId, "1"])
+                } catch {
+                    print(error.localizedDescription)
+                }
+            case .failure(let error):
+                print("error: \(error)")
+                break
+            }
+        }
+    }
 }
 
 public struct TransferData {
@@ -792,7 +867,7 @@ class PathFloatingPanelLayout: FloatingPanelLayout {
     let initialState: FloatingPanelState = .tip
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
         return [
-            .full: FloatingPanelLayoutAnchor(absoluteInset: 70.0, edge: .top, referenceGuide: .safeArea),
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .top, referenceGuide: .safeArea),
 //            .half: FloatingPanelLayoutAnchor(absoluteInset: 165.0, edge: .bottom, referenceGuide: .safeArea),
             .tip: FloatingPanelLayoutAnchor(absoluteInset: 165.0, edge: .bottom, referenceGuide: .safeArea)
         ]

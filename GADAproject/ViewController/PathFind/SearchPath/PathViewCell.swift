@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 class PathViewCell: UITableViewCell {
     
@@ -20,45 +21,46 @@ class PathViewCell: UITableViewCell {
     // 소요 시간 표기
     let time: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "Montserrat-SemiBold", size: 24)
+        text.font = UIFont.pretendard(type: .bold, size: 24)
+        text.textColor = UIColor.textPrimary
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     // 환승 횟수 표기
     let transferNum: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "NotoSansCJKkr-Regular", size: 12)
-        text.textColor = UIColor(named: "color-gray-50")
+        text.font = UIFont.pretendard(type: .medium, size: 14)
+        text.textColor = UIColor.textSecondary
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     // 사이 선
     let line1: UIView = {
         let line = UIView()
-        line.backgroundColor = UIColor(named: "color-gray-50")
+        line.backgroundColor = UIColor.textSecondary
         line.translatesAutoresizingMaskIntoConstraints = false
         return line
     }()
     // 보행 시간 표기
     let walkTime: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "NotoSansCJKkr-Regular", size: 12)
-        text.textColor = UIColor(named: "color-gray-50")
+        text.font = UIFont.pretendard(type: .medium, size: 14)
+        text.textColor = UIColor.textSecondary
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     // 사이 선
     let line2: UIView = {
         let line = UIView()
-        line.backgroundColor = UIColor(named: "color-gray-50")
+        line.backgroundColor = UIColor.textSecondary
         line.translatesAutoresizingMaskIntoConstraints = false
         return line
     }()
     // 도착 예상 시간 표기
     let endTime: UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "Montserrat-Regular", size: 12)
-        text.textColor = UIColor(named: "color-gray-50")
+        text.font = UIFont.pretendard(type: .medium, size: 14)
+        text.textColor = UIColor.textSecondary
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
@@ -74,19 +76,19 @@ class PathViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    // 기본 라인
-    let basicLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "color-gray-30")
-        view.layer.cornerRadius = 2
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     
     // detail, container 사이 선
     let line3: UIView = {
         let line = UIView()
-        line.backgroundColor = UIColor(named: "color-gray-20")
+        line.backgroundColor = UIColor.clear
+        line.translatesAutoresizingMaskIntoConstraints = false
+        return line
+    }()
+    
+    // 마지막 셀 구분 선
+    let line4: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.baseBorder
         line.translatesAutoresizingMaskIntoConstraints = false
         return line
     }()
@@ -129,13 +131,7 @@ class PathViewCell: UITableViewCell {
         containerView.topAnchor.constraint(equalTo: time.bottomAnchor, constant: 10).isActive = true
         containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        containerView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        containerView.addSubview(basicLine)
-        basicLine.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-        basicLine.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-        basicLine.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 17.5).isActive = true
-        basicLine.heightAnchor.constraint(equalToConstant: 4).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
         contentView.addSubview(detailView)
         detailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
@@ -148,6 +144,13 @@ class PathViewCell: UITableViewCell {
         line3.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0).isActive = true
         line3.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0).isActive = true
         line3.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        contentView.addSubview(line4)
+        line4.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.leading.equalTo(contentView.snp.leading).offset(16)
+            $0.trailing.bottom.equalTo(contentView)
+        }
     }
     
     override func prepareForReuse() {
@@ -162,21 +165,25 @@ class PathViewCell: UITableViewCell {
         let lineLabel = UILabel()
     
         lineLabel.font = UIFont(name: "NotoSansCJKkr-Regular", size: 9.5)
-        lineLabel.text = time
+//        lineLabel.text = time
+        lineLabel.text = ""
         lineLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        if lnCd == "bus" {
-            lineView.backgroundColor = .black
-        } else if lnCd == "walk" {
-            lineView.backgroundColor = UIColor(named: "color-gray-30")
-        } else {
-            lineView.backgroundColor = UIColor(named: "color-\(lnCd)") ?? .cyan
-        }
         
         lineView.layer.cornerRadius = 2
         lineView.widthAnchor.constraint(equalToConstant: length).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
         lineView.translatesAutoresizingMaskIntoConstraints = false
+        
+        if lnCd == "bus" {
+            lineView.backgroundColor = UIColor.baseGray600
+            lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
+        } else if lnCd == "walk" {
+            lineView.backgroundColor = UIColor.baseGray300
+            lineView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        } else {
+            lineView.backgroundColor = UIColor(named: "color-\(lnCd)") ?? .baseGray600
+            lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
+        }
+        
         
         if idx == 0 {
             containerView.addSubview(lineLabel)
@@ -202,30 +209,31 @@ class PathViewCell: UITableViewCell {
     }
     
     func addDetailView(idx: Int, station: String, description: String, icon: String) {
-        
+        print(idx, station, description, icon)
         let detailIcon: UIImageView = {
             let imageView = UIImageView()
             imageView.translatesAutoresizingMaskIntoConstraints = false
             if icon == "bus" {
-                imageView.image = UIImage(named: "busCircle")
+                imageView.image = UIImage(named: "circle_bus_24")
             } else if icon == "end" {
-                imageView.image = UIImage(named: "detailEnd")
+                imageView.image = UIImage(named: "circle_none_24")
             } else {
-                imageView.image = UIImage(named: "subway_\(icon)") ?? UIImage(named: "detailEnd")
+                imageView.image = UIImage(named: "circle_line_\(icon)_24") ?? UIImage(named: "circle_none_24")
             }
             return imageView
         }()
         
-        let endIcon: UIImageView = {
-            let imageView = UIImageView()
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.image = UIImage(named: "pathEndDot")
-            return imageView
+        let endIcon: UIView = {
+            let view = UIView()
+            view.backgroundColor = UIColor.baseGray300
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
         }()
         
         let detailStation: UILabel = {
             let label = UILabel()
-            label.font = UIFont(name: "NotoSansCJKkr-Medium", size: 12)
+            label.font = UIFont.pretendard(type: .medium, size: 14)
+            label.textColor = UIColor.textPrimary
             label.text = station
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -233,8 +241,10 @@ class PathViewCell: UITableViewCell {
         
         let detailDescription: UILabel = {
             let label = UILabel()
-            label.font = UIFont(name: "NotoSansCJKkr-Medium", size: 12)
+            label.font = UIFont.pretendard(type: .medium, size: 14)
+            label.textColor = UIColor.textSecondary
             label.text = description
+            label.textAlignment = .right
             label.numberOfLines = 0
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -252,8 +262,7 @@ class PathViewCell: UITableViewCell {
             detailStation.leadingAnchor.constraint(equalTo: detailIcon.trailingAnchor, constant: 10).isActive = true
             
             detailDescription.centerYAnchor.constraint(equalTo: detailStation.centerYAnchor).isActive = true
-            detailDescription.leadingAnchor.constraint(equalTo: detailIcon.trailingAnchor, constant: 110).isActive = true
-            detailDescription.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -10).isActive = true
+            detailDescription.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -16).isActive = true
             
             detailIcon.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -10).isActive = true
             
@@ -280,15 +289,17 @@ class PathViewCell: UITableViewCell {
             detailStation.leadingAnchor.constraint(equalTo: detailIcon.trailingAnchor, constant: 10).isActive = true
             
             detailDescription.centerYAnchor.constraint(equalTo: detailStation.centerYAnchor).isActive = true
-            detailDescription.leadingAnchor.constraint(equalTo: lastView.leadingAnchor).isActive = true
             detailDescription.trailingAnchor.constraint(equalTo: lastView.trailingAnchor).isActive = true
             
             detailIcon.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -10).isActive = true
             
             if icon == "end" {
                 detailView.addSubview(endIcon)
-                endIcon.centerXAnchor.constraint(equalTo: detailIcon.centerXAnchor).isActive = true
-                endIcon.bottomAnchor.constraint(equalTo: detailIcon.topAnchor, constant: 4).isActive = true
+                endIcon.snp.makeConstraints {
+                    $0.centerX.equalTo(detailIcon)
+                    $0.top.equalTo(detailView)
+                    $0.bottom.equalTo(detailIcon.snp.top).offset(4)
+                }
             }
 
         }

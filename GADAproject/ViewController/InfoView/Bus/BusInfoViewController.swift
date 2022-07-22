@@ -27,17 +27,24 @@ class BusInfoViewController: UIViewController {
             var busWay = ""
             let busLabelList = Array(busLabel)
             for (idx,char) in busLabel.enumerated() {
+                print("busLabel.enumerated()", char, char.isCased, char.isLetter)
                 if char.isCased {
                     busNo = busLabel.substring(from: 0, to: idx+1)
                     busWay = busLabel.substring(from: idx+1, to: busLabel.count)
                     break
                 }
                 if char.isLetter {
-                    busNo = busLabel.substring(from: 0, to: idx)
-                    busWay = busLabel.substring(from: idx, to: busLabel.count)
+                    if idx == 0 {
+                        busNo = busLabel
+                        busWay = ""
+                    } else {
+                        busNo = busLabel.substring(from: 0, to: idx)
+                        busWay = busLabel.substring(from: idx, to: busLabel.count)
+                    }
                     break
                 }
             }
+            print("busNo, busWay : ", busNo, busWay)
             busNoLabel.text = busLabel
             if busWay == "" {
                 busWayLabel.text = ""

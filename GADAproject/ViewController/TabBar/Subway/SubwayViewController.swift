@@ -30,11 +30,16 @@ class SubwayViewController: UIViewController {
         self.collectionView.dataSource = self
         self.collectionView.register(SubwayCollectionViewCell.self, forCellWithReuseIdentifier: "SubwayCollectionViewCell")
         subwayLaneList = DataShare.shared().subwayLaneList
-        self.collectionView.reloadData()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(subwaySearchByName(_:)), name: .subwaySearchByName, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
         let firstIndexPath = IndexPath(item: 0, section: 0)
         self.collectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
         collectionView(self.collectionView, didSelectItemAt: firstIndexPath)
-        NotificationCenter.default.addObserver(self, selector: #selector(subwaySearchByName(_:)), name: .subwaySearchByName, object: nil)
     }
     
     @IBAction func tapSubwaySearchStation(_ sender: Any) {
@@ -104,9 +109,9 @@ extension SubwayViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let vc = UIStoryboard(name: "Subway", bundle: nil).instantiateViewController(withIdentifier: "SubwayStationInfoViewController") as! SubwayStationInfoViewController
+        let vc = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(withIdentifier: "SubwayStationInfoViewController") as! SubwayStationInfoViewController
         let row = indexPath.row
-                
+
         self.navigationController?.pushViewController(vc, animated: true)
     
         vc.subwayLineInfo = subwayLineList[row]

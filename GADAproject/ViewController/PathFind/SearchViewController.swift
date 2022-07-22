@@ -16,7 +16,7 @@ class SearchViewController: UIViewController, TMapViewDelegate, CLLocationManage
     @IBOutlet weak var endButton: UIButton!
     @IBOutlet weak var taxiCallBtn: UIButton!
     @IBOutlet weak var pathView: UIView!
-    @IBOutlet weak var zoomInOutView: UIView!
+//    @IBOutlet weak var zoomInOutView: UIView!
     @IBOutlet weak var exchangeBtn: UIButton!
     @IBOutlet weak var nowLoaction: UIButton!
     
@@ -122,8 +122,6 @@ class SearchViewController: UIViewController, TMapViewDelegate, CLLocationManage
         }
         debugPrint("is Rotate = \(mapView?.isRotationEnable)")
         
-        zoomInOutView.layer.cornerRadius = zoomInOutView.frame.size.width / 2
-        UsefulUtils.shadowCorner(view: zoomInOutView)
         collectionViewSetting()
 //        favoriteCollectionView.delegate = self
 //        favoriteCollectionView.dataSource = self
@@ -133,7 +131,6 @@ class SearchViewController: UIViewController, TMapViewDelegate, CLLocationManage
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-//        NotificationCenter.default.removeObserver(self, name: .recieveStartLoactionData, object: nil)
     }
     
     private func collectionViewSetting() {
@@ -150,29 +147,31 @@ class SearchViewController: UIViewController, TMapViewDelegate, CLLocationManage
         favoriteCollectionView.register(FavoriteMoreCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "FavoriteMoreCollectionViewCell")
     }
     
+    @IBAction func tapBackBtn(_ sender: Any) {
+        dismiss(animated: true)
+    }
     // 출도착지 변경 버튼
     @IBAction func exchangeBtnClick(_ sender: Any) {
         let tempText = startButton.currentTitle
         let tempLatLon = SearchViewController.startLatLon
         let tempLocationString = SearchViewController.startLocationString
-        let fontGray = UIColor(named: "color-gray-50") ?? .clear
         
         if endButton.currentTitle == "도착지 입력" {
             startButton.setTitle("출발지 입력", for: .normal)
-            startButton.setTitleColor(fontGray, for: .normal)
+            startButton.setTitleColor(.textSecondary, for: .normal)
         } else {
             startButton.setTitle(endButton.currentTitle, for: .normal)
-            startButton.setTitleColor(.black, for: .normal)
+            startButton.setTitleColor(.textPrimary, for: .normal)
         }
         SearchViewController.startLocationString = SearchViewController.endLocationString
         SearchViewController.startLatLon = SearchViewController.endLatLon
         
         if tempText == "출발지 입력" {
             endButton.setTitle("도착지 입력", for: .normal)
-            endButton.setTitleColor(fontGray, for: .normal)
+            endButton.setTitleColor(.textSecondary, for: .normal)
         } else {
             endButton.setTitle(tempText, for: .normal)
-            endButton.setTitleColor(.black, for: .normal)
+            endButton.setTitleColor(.textPrimary, for: .normal)
         }
         SearchViewController.endLocationString = tempLocationString
         SearchViewController.endLatLon = tempLatLon
@@ -199,7 +198,7 @@ class SearchViewController: UIViewController, TMapViewDelegate, CLLocationManage
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-    
+    /*
     // 줌 인 버튼
     @IBAction func zoomInBtnClick(_ sender: Any) {
         var zoom: Int = self.mapView?.getZoom() ?? 0
@@ -216,6 +215,7 @@ class SearchViewController: UIViewController, TMapViewDelegate, CLLocationManage
         zoom = zoom - 1
         self.mapView?.animateTo(zoom: zoom)
     }
+    */
     
     @IBAction func nowLoactionClick(_ sender: Any) {
         print("\(SearchViewController.currentLocation)")
@@ -233,9 +233,10 @@ class SearchViewController: UIViewController, TMapViewDelegate, CLLocationManage
         SearchViewController.endLatLon = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
         
         startButton.setTitle(SearchViewController.currentLocationString, for: .normal)
-        startButton.setTitleColor(.black, for: .normal)
+        startButton.setTitleColor(.textPrimary, for: .normal)
+        
         endButton.setTitle("도착지 입력", for: .normal)
-        endButton.setTitleColor(UIColor(named: "color-gray-50"), for: .normal)
+        endButton.setTitleColor(.textPrimary, for: .normal)
     }
     
     func favoriteApiSetting() {
@@ -344,12 +345,12 @@ extension SearchViewController {
         // 각각 변수에 아이템들 부여
         print("searchData - \(searchData)")
         startButton.setTitle(searchData.startName, for: .normal)
-        startButton.setTitleColor(searchData.startName == "출발지 입력" ? UIColor(named: "color-gray-50") : .black, for: .normal)
+        startButton.setTitleColor(searchData.startName == "출발지 입력" ? .textSecondary : .textPrimary, for: .normal)
         SearchViewController.startLocationString = searchData.startName
         SearchViewController.startLatLon = searchData.startLatLon
         
         endButton.setTitle(searchData.endName, for: .normal)
-        endButton.setTitleColor(searchData.endName == "도착지 입력" ? UIColor(named: "color-gray-50") : .black, for: .normal)
+        endButton.setTitleColor(searchData.endName == "도착지 입력" ? .textSecondary : .textPrimary, for: .normal)
         SearchViewController.endLocationString = searchData.endName
         SearchViewController.endLatLon = searchData.endLatLon
         
@@ -446,7 +447,8 @@ extension SearchViewController {
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return DataShare.shared().favoriteDataList.count + 1
+//        return DataShare.shared().favoriteDataList.count + 1
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -623,8 +625,6 @@ extension SearchViewController {
         endButton.accessibilityHint = "클릭하면 도착지를 검색할 수 있습니다."
         
         tmapView.isAccessibilityElement = false
-        
-        zoomInOutView.isAccessibilityElement = false
         
         nowLoaction.isAccessibilityElement = true
         nowLoaction.accessibilityHint = "클릭하면 현위치로 출발지가 설정됩니다."

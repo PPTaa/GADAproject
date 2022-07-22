@@ -12,10 +12,10 @@ class NothingCell: UITableViewCell {
 }
 
 class SearchCellHeader: UITableViewCell {
-   
+
     @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var headerMoreBtn: UIButton!
-    
+
 }
 
 class SearchCell: UITableViewCell {
@@ -36,9 +36,9 @@ class NoneCell: UITableViewCell {
     @IBOutlet var basicText: UILabel!
 }
 
-class RecentSearchPathCell: UITableViewCell {
-    
-    @IBOutlet weak var startAddress: UILabel!
-    @IBOutlet weak var endAddress: UILabel!
-    
-}
+//class RecentSearchPathCell: UITableViewCell {
+//
+//    @IBOutlet weak var startAddress: UILabel!
+//    @IBOutlet weak var endAddress: UILabel!
+//
+//}
